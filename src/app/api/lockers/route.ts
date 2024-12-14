@@ -1,16 +1,26 @@
 import { NextResponse } from "next/server";
 import dbConnect from "@/app/db/dbConnect";
 import Locker from "@/app/models/Locker";
+import { z } from "zod";
 
-// Adicionar armário
-export async function POST(request: Request) {
+const lockerSchema = z.object ({
+    building : z.enum(['A', 'B', 'C', 'D'], { message: "Necessário informar o prédio." }),
+    number : z.number({message: "Necessário informar o número do armário."})
+        .min(1, {message: "O número do armário deve ser maior que zero."})
+        .int({message: "O número do armário deve ser inteiro."})
+    
+});
+
+// add locker
+export async function POST(request: Request) : Promise<NextResponse>{
 
     await dbConnect();
 
     try {
-        const { building, number} = await request.json();
 
-        // Checks if the locker doesn't already exist
+        const {building, number} = lockerSchema.parse(await request.json())
+
+        // checks if the locker doesn't already exist
         const locker = await Locker.findOne({building, number});
 
         if (locker) {
@@ -20,26 +30,38 @@ export async function POST(request: Request) {
             );
         }
 
-        // Adds a new locker
+        // adds a new locker
         const createdLocker = await Locker.create({building, number});
         return NextResponse.json(
             createdLocker,
             { status: 201 }
         );
 
-    } catch (error) {
-        console.error("Erro ao adicionar armário:", error);
+    }
+    catch (error) {
+
+        if(error instanceof z.ZodError){
+
+            return NextResponse.json(
+                { message: "Erro de requisição.", errors:  error.issues},
+                { status: 400}
+            )
+        }
+
+        console.error("Erro interno do servidor", error);
         return NextResponse.json(
-            { mensagem: "Requisição incorreta." },
-            { status: 400 }
+            { message: "Erro interno do servidor. Tente novamente mais tarde." },
+            { status: 500 }
         );
     }
 }
 
-// Remover armário
-export async function DELETE(request: Request) {
+// remove locker
+export async function DELETE(request: Request) : Promise<NextResponse>{
+
     try {
-        const { building, number } = await request.json();
+
+        const { building, number } = lockerSchema.parse(await request.json());
 
         const removedLocker = await Locker.findOneAndDelete({building, number});
 
@@ -51,14 +73,23 @@ export async function DELETE(request: Request) {
         }
 
         return NextResponse.json(
-            { mensagem: "Armário removido com sucesso." },
+            { message: "Armário removido com sucesso." },
             { status: 200 }
         );
 
     } catch (error) {
-        console.error("Erro ao remover armário:", error);
+
+        if(error instanceof z.ZodError){
+            return NextResponse.json(
+                { message: "Erro de requisição.", errors: error.issues },
+                { status: 400 }
+            );
+        }
+
+        console.error("Erro interno do servidor.", error);
+        
         return NextResponse.json(
-            { mensagem: "Erro ao remover armário." },
+            { message: "Erro interno do servidor. Tente novamente mais tarde." },
             { status: 500 }
         );
     }

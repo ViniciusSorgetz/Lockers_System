@@ -1,7 +1,8 @@
 import Armario from "@/app/models/Locker";
 import { NextResponse } from "next/server";
 
-export async function GET(request: Request, context: any){
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function GET(request: Request, context: any) : Promise<Response>{
 
     try {
         const { params } = context;

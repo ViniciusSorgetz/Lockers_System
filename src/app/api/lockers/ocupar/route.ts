@@ -2,7 +2,7 @@ import dbConnect from "@/app/db/dbConnect";
 import Armario from "@/app/models/Locker";
 import { NextResponse } from "next/server";
 
-export async function POST(request: Request){
+export async function POST(request: Request) : Promise<Response>{
 
     await dbConnect();
 
