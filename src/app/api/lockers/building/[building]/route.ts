@@ -4,7 +4,6 @@ import Locker from "@/app/models/Locker";
 
 // get lockers from an specific building
 export async function GET(
-
     _request: Request, 
     { params } : { params: Promise<{ building: string }> }
     ) : Promise<NextResponse> {

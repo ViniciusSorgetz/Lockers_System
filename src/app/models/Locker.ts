@@ -3,8 +3,7 @@ import mongoose, { Schema, Types } from "mongoose";
 export interface History{
     start_date: Date,
     end_date: Date,
-    reason?: string,
-    student_id: Types.ObjectId
+    reason: string,
 }
 
 export interface ILocker{
@@ -14,7 +13,7 @@ export interface ILocker{
     student_id?: Types.ObjectId,
     start_date?: Date,
     end_date?: Date,
-    history?: History[]
+    history: History[]
 }
 
 const lockerSchema:Schema = new mongoose.Schema({
