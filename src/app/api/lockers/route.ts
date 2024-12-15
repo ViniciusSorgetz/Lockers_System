@@ -4,11 +4,10 @@ import Locker from "@/app/models/Locker";
 import { z } from "zod";
 
 const lockerSchema = z.object ({
-    building : z.enum(['A', 'B', 'C', 'D'], { message: "Necessário informar o prédio." }),
-    number : z.number({message: "Necessário informar o número do armário."})
-        .min(1, {message: "O número do armário deve ser maior que zero."})
-        .int({message: "O número do armário deve ser inteiro."})
-    
+    building : z.enum(['A', 'B', 'C', 'D']),
+    number : z.number()
+        .min(1)
+        .int()
 });
 
 // add locker
@@ -33,7 +32,7 @@ export async function POST(request: Request) : Promise<NextResponse>{
         // adds a new locker
         const createdLocker = await Locker.create({building, number});
         return NextResponse.json(
-            createdLocker,
+            { message: "Armário adicionado com sucesso.", locker: createdLocker },
             { status: 201 }
         );
 

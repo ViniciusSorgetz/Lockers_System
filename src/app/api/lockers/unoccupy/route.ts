@@ -33,28 +33,28 @@ export async function POST(request: Request) : Promise<NextResponse>{
             );
         }
 
-        locker.history.push({
-            start_date: new Date(locker.start_date),
-            end_date: new Date(locker.end_date),
-            reason: reason
-        });
+        if(locker.start_date && locker.end_date){
+            locker.history.push({
+                start_date: new Date(locker.start_date),
+                end_date: new Date(locker.end_date),
+                reason: reason
+            });
+        }
 
         locker.occupied = false;
-        locker.student_id = undefined;
         locker.start_date = undefined;
         locker.end_date = undefined;
+        locker.student_id = undefined;
         
-
-        await Armario.updateOne(
-            {_id: body.armario_id}, 
-            novoArmario, 
+        await Locker.updateOne({_id: locker_id}, locker);
+        await Locker.updateOne(
+            {_id: locker_id}, 
+            {$unset: { start_date: "", end_date: "", student_id: "" }}
         );
-        await Armario.updateOne(
-            {_id: body.armario_id}, 
-            {$unset: { data_ocupacao: "", data_prazo: "", aluno_id: "" }}
+        return NextResponse.json(
+            { message: "Armário desocupado com sucesso.", locker },
+            { status: 200 }
         );
-        const armarioAtualizado = await Armario.findById(body.armario_id);
-        return NextResponse.json(armarioAtualizado);
     } 
     catch (error) {
 
@@ -65,7 +65,7 @@ export async function POST(request: Request) : Promise<NextResponse>{
             )
         }
 
-        console.log(error);
+        console.error(error);
         return NextResponse.json(
             { message: "Erro ao desocupar armário. Tente novamente mais tarde." },
             { status: 500 }
