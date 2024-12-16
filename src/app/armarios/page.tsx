@@ -1,239 +1,80 @@
 "use client"
-import { useEffect, useState, useRef } from "react";
-import { IBuilding } from '../models/Locker';
-import CriarArmario from '@/components/CriarArmario';
-import ArmarioOcupado from '@/components/ArmarioOcupado';
-import ArmarioLivre from '@/components/ArmarioLivre';
-import Historico from "@/components/Historico";
-import ExcluirArmario from "@/components/ExcluirArmario";
-import mongoose, { Types } from "mongoose";
+import { useEffect, useState } from "react";
 import axios from "axios";
+import { useLockersContext } from "@/context/LockersContext";
+import { ILocker } from "../models/Locker";
 
-type ArmariosPorPredio = {
-    [key in `predio${"A" | "B" | "C" | "D"}`]?: IArmario[];
-};
+const LockersPage = () => {
 
-const Dashbord = () => {
-
-    const [armarios, setArmarios] = useState<ArmariosPorPredio>({});
-    const [armariosPredioAtual, setArmariosPredioAtual] = useState<IArmario[] | undefined>([]);
-    const [predioSelecionado, setPredioSelecionado] = useState("A");
-    const [idArmario, setIdArmario] = useState<Types.ObjectId>();
-    const [armario, setArmario] = useState<IArmario>();
-    const [criarArmarioModal, setCriarArmarioModal] = useState(false);
-    const [armarioOcupadoModal, setArmarioOcupadoModal] = useState(false);
-    const [armarioLivreModal, setArmarioLivreModal] = useState(false);
-    const [historicoModal, setHistoricoModal] = useState(false);
-    const [removerArmarioModal, setRemoverArmarioModal] = useState(false);
-
-    // State to control context menu visibility and position
-    const [contextMenu, setContextMenu] = useState<{
-        visible: boolean;
-        x: number;
-        y: number;
-    }>({ visible: false, x: 0, y: 0 });
-
-    const contextMenuRef = useRef<HTMLDivElement>(null);
+    const { lockers, setLockers, locker, setLocker, building, setBuilding } = useLockersContext();
 
     useEffect(() => {
-        getData();
 
-        // Close context menu when clicking anywhere
-        const handleClickOutside = (event: MouseEvent) => {
-            if (contextMenuRef.current && !contextMenuRef.current.contains(event.target as Node)) {
-                setContextMenu({ visible: false, x: 0, y: 0 });
-            }
-        };
-
-        document.addEventListener("click", handleClickOutside);
-        return () => {
-            document.removeEventListener("click", handleClickOutside);
-        };
+        getData('A');
     }, []);
 
-    const getData = async () => {
+    const getData = async (letter : 'A' | 'B' | 'C' | 'D') => {
         try {
-            const resp = await axios.get("/api/armarios");
-            const data = resp.data;
+            const resp = await axios.get(`api/lockers/building/${letter}`);
+            const data = resp.data as ILocker[];
 
-            // Ordena os armários de cada prédio
-            const armariosOrdenados = Object.keys(data).reduce((acc: any, predio) => {
-                acc[predio] = data[predio].sort((a: any, b: any) => a.numero - b.numero);
-                return acc;
-            }, {});
+            const sortedLockers = data.sort((a:ILocker, b:ILocker) => a.number - b.number);
+            setLockers(sortedLockers);
 
-            setArmarios(armariosOrdenados);
-            setArmariosPredioAtual(armariosOrdenados.predioA);
         } catch (error) {
             console.error("Erro ao buscar dados:", error);
         }
     };
-
-    const handlePredioAtual = (e: any) => {
-        setPredioSelecionado(e.target.value);
-        switch (e.target.value) {
-            case "A":
-                setArmariosPredioAtual(armarios.predioA);
-                break;
-            case "B":
-                setArmariosPredioAtual(armarios.predioB);
-                break;
-            case "C":
-                setArmariosPredioAtual(armarios.predioC);
-                break;
-            case "D":
-                setArmariosPredioAtual(armarios.predioD);
-                break;
+    
+    const lockerClass = (locker: ILocker): string => {
+        if (locker.occupied) {
+            const deadline = locker.end_date ? new Date(locker.end_date) : null;
+            const today = new Date();
+            if (deadline) return today > deadline ? "locker-irregular" : "locker-occupied";
         }
+        return "locker-free";
     };
 
-    const classeArmario = (armario: IArmario): string => {
-        if (armario.ocupado) {
-            const prazo = armario.data_prazo ? new Date(armario.data_prazo) : null;
-            const hoje = new Date();
-            if (prazo) {
-                return hoje > prazo ? "armario armario-irregular" : "armario armario-ocupado";
-            }
-        }
-        return "armario armario-livre";
-    };
+    const handleClick = (locker: ILocker): void => {
 
-    const handleClick = (armario: IArmario): void => {
-        setArmario(armario);
-        setIdArmario(armario._id);
-        if (armario.ocupado) setArmarioOcupadoModal(true);
-        else setArmarioLivreModal(true);
-    };
+    }
 
-    const handleContextMenu = (event: React.MouseEvent, armario: IArmario) => {
-        event.preventDefault();
-        setArmario(armario);
-        setIdArmario(armario._id);
-        setContextMenu({
-            visible: true,
-            x: event.clientX,
-            y: event.clientY,
-        });
-    };
+    const handleBuilding = (e : React.ChangeEvent<HTMLSelectElement>) : void => {
+        const letter = e.target.value as 'A' | 'B' | 'C' | 'D';
+        setBuilding(letter);
+        getData(letter);
+    }
 
     return (
         <div className="main">
-            {criarArmarioModal && (
-                <CriarArmario
-                    closeModal={() => setCriarArmarioModal(false)}
-                    predioSelecionado={predioSelecionado}
-                    setArmariosPredioAtual={setArmariosPredioAtual}
-                    handlePredioAtual={handlePredioAtual}
-                    armarios={armarios}
-                    setArmarios={setArmarios}
-                />
-            )}
-            {armarioOcupadoModal && (
-                <ArmarioOcupado
-                    closeModal={() => setArmarioOcupadoModal(false)}
-                    armario={armario}
-                    armarios={armarios}
-                    setArmarios={setArmarios}
-                    idArmario={idArmario}
-                    handlePredioAtual={handlePredioAtual}
-                    setArmariosPredioAtual={setArmariosPredioAtual}
-                    predioSelecionado={predioSelecionado}
-                />
-            )}
-            {armarioLivreModal && (
-                <ArmarioLivre
-                    armario={armario}
-                    armarios={armarios}
-                    predioSelecionado={predioSelecionado}
-                    setArmarios={setArmarios}
-                    setArmariosPredioAtual={setArmariosPredioAtual}
-                    closeModal={() => setArmarioLivreModal(false)}
-                />
-            )}
-            {historicoModal && (
-                <Historico
-                    closeModal={() => setHistoricoModal(false)}
-                    armario={armario}
-                    predioSelecionado={predioSelecionado}
-                />
-            )}
-            {removerArmarioModal && (
-                <ExcluirArmario
-                    closeModal={() => setRemoverArmarioModal(false)}
-                    numero={armario?.numero}
-                    armarios={armarios}
-                    setArmarios={setArmarios}
-                    setArmariosPredioAtual={setArmariosPredioAtual}
-                    predioSelecionado={predioSelecionado}
-                />
-            )}
-
-            {contextMenu.visible && (
-                <div
-                    ref={contextMenuRef}
-                    style={{
-                        position: "absolute",
-                        left: `${contextMenu.x}px`,
-                        top: `${contextMenu.y}px`,
-                        zIndex: 1000,
-                    }}
-                    className="card shadow"
-                >
-                    <div className="card" style={{cursor: "pointer"}}>
-                        <ul className="list-group list-group-flush">
-                            <li 
-                                className="list-group-item"
-                                onClick={() => {
-                                    setContextMenu({ visible: false, x: 0, y: 0 });
-                                    setHistoricoModal(true);
-                                }}
-                            >
-                                Histórico <i className="bi bi-clock"></i>
-                            </li>
-                            <li 
-                                className="list-group-item text-danger"
-                                onClick={() => {
-                                    setContextMenu({ visible: false, x: 0, y: 0 });
-                                    setRemoverArmarioModal(true);
-                                }}
-                            >
-                                Remover <i className="bi bi-trash"></i>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            )}
-
-            <div className="armarios-header">
+            <div className="lockers-header">
                 <select
-                    className="armarios-select"
-                    aria-label="Default select example"
-                    onChange={handlePredioAtual}
+                    className="lockers-select"
+                    aria-label="building select"
+                    onChange={handleBuilding}
+                    defaultValue={"A"}
                 >
-                    <option value="A" selected>
-                        Predio A
-                    </option>
+                    <option value="A">Predio A</option>
                     <option value="B">Predio B</option>
                     <option value="C">Predio C</option>
                     <option value="D">Predio D</option>
                 </select>
-                <button className="btn-criar" onClick={() => setCriarArmarioModal(true)}>
+                <button className="btn-create" onClick={() => {}}>
                     Adicionar armário
                     <i className="bi bi-plus-lg"></i>
                 </button>
             </div>
-            <div className="armarios">
-                {armariosPredioAtual?.map((armario) => (
+            <div className="lockers">
+                {lockers?.map((locker) => (
                     <div
-                        key={armario.numero}
-                        className={classeArmario(armario)}
-                        onClick={() => handleClick(armario)}
-                        onContextMenu={(e) => handleContextMenu(e, armario)}
+                        key={locker.number}
+                        className={"locker " + lockerClass(locker)}
+                        onClick={() => handleClick(locker)}
                     >
-                        {armario.numero}
+                        {locker.number}
                     </div>
                 ))}
-                {armariosPredioAtual?.length === 0 && (
+                {lockers?.length === 0 && (
                     <label className="my-3">Sem armários por aqui...</label>
                 )}
             </div>
@@ -241,4 +82,4 @@ const Dashbord = () => {
     );
 };
 
-export default Dashbord;
+export default LockersPage;

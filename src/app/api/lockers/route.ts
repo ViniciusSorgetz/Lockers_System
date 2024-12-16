@@ -19,9 +19,10 @@ export async function POST(request: Request) : Promise<NextResponse>{
         const locker = await Locker.findOne({building, number});
 
         if (locker) return NextResponse.json(
-                { message: "Este armário já existe." },
-                { status: 409 }
+            { message: "Este armário já existe." },
+            { status: 409 }
         );
+
         // adds a new locker
         const createdLocker = await Locker.create({building, number});
         return NextResponse.json(

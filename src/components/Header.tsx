@@ -7,11 +7,11 @@ import info from '../public/assets/info.png';
 import Link from 'next/link';
 
 const Header = () => {
-  const pathname = usePathname(); // Obtém o caminho atual
+  const pathname = usePathname(); // obtains the current url
 
-  // Define a classe com base no pathname
-  const headerClass = pathname === '/armarios' ? 'header header-armarios' : 
-                      pathname === '/turmas' ? 'header header-turmas' : 
+  // defines the class based in the url
+  const headerClass = pathname === '/armarios' ? 'header header-lockers' : 
+                      pathname === '/turmas' ? 'header header-classes' : 
                       'header';
 
   return (
@@ -19,10 +19,10 @@ const Header = () => {
         <Image src={cimol} alt="header" style={{ height: "90px", width: "auto" }} />
         <div className="header-selection">
             <Link href="/armarios">
-              <button className="selection-armarios">Armários</button>
+              <button className="selection-lockers">Armários</button>
             </Link>
             <Link href="/turmas">
-              <button className="selection-turmas">Turmas</button>
+              <button className="selection-classes">Turmas</button>
             </Link>
         </div>
         <Image src={info} alt="header" style={{ height: "60px", width: "auto" }} />
