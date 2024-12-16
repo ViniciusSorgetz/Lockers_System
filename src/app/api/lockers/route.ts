@@ -25,7 +25,7 @@ export async function POST(request: Request) : Promise<NextResponse>{
         if (locker) {
             return NextResponse.json(
                 { message: "Este armário já existe." },
-                { status: 400 }
+                { status: 409 }
             );
         }
 

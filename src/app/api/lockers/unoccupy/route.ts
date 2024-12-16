@@ -22,14 +22,14 @@ export async function POST(request: Request) : Promise<NextResponse>{
         if(!locker){
             return NextResponse.json(
                 { message: "Armário não encontrado." },
-                { status: 400 }
+                { status: 404 }
             )
         }
 
         if(!locker.occupied){
             return NextResponse.json(
                 { message: "Este armário já está desocupado." },
-                { status: 404 }
+                { status: 400 }
             );
         }
 

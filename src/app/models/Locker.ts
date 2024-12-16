@@ -16,7 +16,7 @@ export interface ILocker{
     history: History[]
 }
 
-const lockerSchema:Schema = new mongoose.Schema({
+const lockerSchema:Schema = new mongoose.Schema<ILocker>({
         building: {
             type: String,
             enum: ["A", "B", "C", "D"],
@@ -65,6 +65,6 @@ const lockerSchema:Schema = new mongoose.Schema({
         ]
 });
 
-const Locker = mongoose.models.Locker || mongoose.model<ILocker>("Locker", lockerSchema);
+const Locker : mongoose.Model<ILocker> = mongoose.models.Locker || mongoose.model<ILocker>("Locker", lockerSchema);
 
 export default Locker;

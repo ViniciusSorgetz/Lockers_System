@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
+// occupy locker
 export async function POST(request: Request) : Promise<NextResponse>{
 
     await dbConnect();

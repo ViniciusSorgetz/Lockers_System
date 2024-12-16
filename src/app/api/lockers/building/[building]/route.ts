@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import dbConnect from "@/app/db/dbConnect";
 import Locker from "@/app/models/Locker";
+import { z } from "zod";
+
 
 // get lockers from an specific building
 export async function GET(
@@ -9,15 +11,10 @@ export async function GET(
     ) : Promise<NextResponse> {
 
     await dbConnect();
-
+    const buildingSchema = z.enum(['A', 'B', 'C', 'D']);
+    
     try {
-        const building = (await params).building;
-        if(!['A', 'B', 'C', 'D'].includes(building)){
-            return NextResponse.json(
-                { message: "Prédio inválido." },
-                { status: 400 }
-            )
-        }
+        const building = buildingSchema.parse((await params).building);
         const lockers = await Locker.find({building: building});
         return NextResponse.json(
             lockers,
@@ -25,6 +22,13 @@ export async function GET(
         );
 
     } catch (error) {
+
+        if(error instanceof z.ZodError){
+            return NextResponse.json(
+                { message: "Erro de requisição.", errors: error.issues },
+                { status: 400 }
+            )
+        }
 
         console.error("Erro interno do servidor.", error);
         return NextResponse.json(

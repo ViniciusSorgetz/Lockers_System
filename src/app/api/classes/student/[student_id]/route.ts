@@ -1,44 +1,55 @@
 import { NextResponse } from "next/server";
 import dbConnect from "@/app/db/dbConnect";
-import Turma from "@/app/models/Turma";
+import Class, { Student } from "@/app/models/Class";
+import { z } from "zod";
 
-export async function GET(request: Request, context: any) {
+// get information of a student
+export async function GET(
+    _request: Request, 
+    { params } : {params: Promise<{ student_id: string }>}
+    ) : Promise<NextResponse>
+    {
+
     await dbConnect();
+    const studentIdSchema = z.string().regex(/^[0-9a-f]{24}$/);
 
     try {
-        const { alunoId } = context.params; // `alunoId` vem do contexto
-        const turma = await Turma.findOne({ "alunos._id": alunoId }); // Busca a turma que contém o aluno
+        const studentId = studentIdSchema.parse((await params).student_id);
+        const studentClass = await Class.findOne({ "students._id": studentId });
 
-        if (!turma) {
+        if (!studentClass) {
             return NextResponse.json(
-                { mensagem: "Aluno ou turma não encontrado." },
+                { message: "Aluno não encontrado." },
                 { status: 404 }
             );
         }
 
-        const aluno = turma.alunos.find((aluno: any) => aluno._id.toString() === alunoId); // Busca o aluno na lista
-        if (!aluno) {
-            return NextResponse.json(
-                { mensagem: "Aluno não encontrado." },
-                { status: 404 }
-            );
-        }
+        const student = <Student | undefined> studentClass.students.find((s : Student) => 
+            s._id?.toString() == studentId);
+        ;
 
-        // Retorna as informações do aluno e a turma
-        return NextResponse.json({
-            aluno,
-            turma: {
-                codigo: turma.codigo, // Retorna apenas o código da turma
-            },
-        });
-    } catch (error) {
         return NextResponse.json(
-            { mensagem: "Requisição incorreta." },
+            { student: student, class_code : studentClass.code },
+            { status: 200 }
+        );
+
+    } catch (error) {
+
+        if(error instanceof z.ZodError){
+            return NextResponse.json(
+                { message: "Erro de requisição.", errors: error.issues },
+                { status: 400 }
+            )
+        }
+
+        console.error(error);
+        return NextResponse.json(
+            { message: "Erro ao buscar informações do aluno. Tente novamente mais tarde." },
             { status: 400 }
         );
     }
 }
-
+/*
 export async function PUT(request: Request, context: any) {
     await dbConnect();
 
@@ -141,3 +152,4 @@ export async function DELETE(request: Request, context: any) {
         );
     }
 }
+*/
