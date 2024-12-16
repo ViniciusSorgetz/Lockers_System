@@ -1,4 +1,5 @@
 import Locker from "@/app/models/Locker";
+import { objectIdSchema } from "@/app/schemas/schemas";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -10,8 +11,7 @@ export async function GET(
     ) : Promise<NextResponse> {
 
     try {
-        const lockerIdSchema = z.string().regex(/^[0-9a-f]{24}$/);
-        const locker_id = lockerIdSchema.parse((await params).locker_id);
+        const locker_id = objectIdSchema.parse((await params).locker_id);
         const locker = await Locker.findById(locker_id);
 
         if (!locker){

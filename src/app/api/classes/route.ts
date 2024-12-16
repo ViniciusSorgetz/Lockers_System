@@ -30,7 +30,7 @@ export async function POST(request: Request) : Promise<NextResponse>{
 
     await dbConnect();
     const codeSchema = z.object({
-        code: z.string()
+        code: z.string().min(2)
     });
 
     try {
@@ -53,13 +53,10 @@ export async function POST(request: Request) : Promise<NextResponse>{
     } 
     catch (error) {
 
-        if(error instanceof z.ZodError){
-            
-            return NextResponse.json(
+        if(error instanceof z.ZodError) return NextResponse.json(
                 { message: "Erro de requisição.", errors: error.issues },
                 { status: 400 }
-,            )
-        }
+,       );
 
         console.error(error);
         return NextResponse.json(

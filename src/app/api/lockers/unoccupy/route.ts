@@ -18,14 +18,12 @@ export async function POST(request: Request) : Promise<NextResponse>{
         
         // checks if the locker isn't aldeary unoccupy
         const locker =  <ILocker> await Locker.findById(locker_id);
-
         if(!locker){
             return NextResponse.json(
                 { message: "Armário não encontrado." },
                 { status: 404 }
             )
         }
-
         if(!locker.occupied){
             return NextResponse.json(
                 { message: "Este armário já está desocupado." },
@@ -58,12 +56,10 @@ export async function POST(request: Request) : Promise<NextResponse>{
     } 
     catch (error) {
 
-        if(error instanceof z.ZodError){
-            return NextResponse.json(
-                { message: "Erro de requisição.", errors: error.issues },
-                { status: 400 }
-            )
-        }
+        if(error instanceof z.ZodError) return NextResponse.json(
+            { message: "Erro de requisição.", errors: error.issues },
+            { status: 400 }
+        );
 
         console.error(error);
         return NextResponse.json(

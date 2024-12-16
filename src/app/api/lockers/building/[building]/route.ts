@@ -23,12 +23,10 @@ export async function GET(
 
     } catch (error) {
 
-        if(error instanceof z.ZodError){
-            return NextResponse.json(
-                { message: "Erro de requisição.", errors: error.issues },
-                { status: 400 }
-            )
-        }
+        if(error instanceof z.ZodError) return NextResponse.json(
+            { message: "Erro de requisição.", errors: error.issues },
+            { status: 400 }
+        );
 
         console.error("Erro interno do servidor.", error);
         return NextResponse.json(
