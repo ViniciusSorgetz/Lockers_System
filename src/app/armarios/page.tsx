@@ -4,6 +4,7 @@ import axios from "axios";
 import { useLockersContext } from "@/context/LockersContext";
 import { ILocker } from "../models/Locker";
 import LockerModal from "@/components/LockerModal";
+import CreateLockerModal from "@/components/CreateLockerModal";
 
 const LockersPage = () => {
 
@@ -12,8 +13,10 @@ const LockersPage = () => {
         locker, setLocker, 
         lockerState, setLockerState,
         building, setBuilding,
-        lockerModal, setLockerModal
     } = useLockersContext();
+
+    const [lockerModal, setLockerModal] = useState(false);
+    const [createLockerModal, setCreateLockerModal] = useState(false);
 
     useEffect(() => {
 
@@ -56,7 +59,8 @@ const LockersPage = () => {
     }
 
     return (<>
-        {lockerModal && <LockerModal/>}
+        {lockerModal && <LockerModal closeModal={() => setLockerModal(false)}/>}
+        {createLockerModal && <CreateLockerModal closeModal={() => setCreateLockerModal(false)}/>}
         <div className="main">
             <div className="lockers-header">
                 <select
@@ -70,7 +74,7 @@ const LockersPage = () => {
                     <option value="C">Predio C</option>
                     <option value="D">Predio D</option>
                 </select>
-                <button className="btn-create" onClick={() => {}}>
+                <button className="btn-create" onClick={() => {setCreateLockerModal(true)}}>
                     Adicionar armário
                     <i className="bi bi-plus-lg"></i>
                 </button>

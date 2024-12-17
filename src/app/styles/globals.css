@@ -78,13 +78,16 @@ body{
   -webkit-text-stroke: 1px
 }
 .my-modal{
-  background-color: var(--background);
-  background-color: rgba(0, 0, 0, 0.541);
+  background-color: rgba(0, 0, 0, 0.623);
 }
 .my-modal .modal-content{
   padding: 15px 25px;
   border-radius: 30px;
   border: none;
+  background-color: var(--background);
+}
+.modal-content input, .modal-content select{
+  background-color: transparent;
 }
 .modal-irregular{
   --modalColor: var(--red);

@@ -1,15 +1,16 @@
 import lockerClass from "@/app/utils/lockerClass";
 import { useLockersContext } from "@/context/LockersContext";
 
-const LockerModal = () => {
+const LockerModal = (props : { closeModal : () => void }) => {
 
     const { 
             lockers, setLockers, 
             locker, setLocker, 
             lockerState, setLockerState,
             building, setBuilding,
-            lockerModal, setLockerModal
     } = useLockersContext();
+
+    const { closeModal } = props;
 
     const getLockerClass = () : string => {
         switch(lockerState){
@@ -67,7 +68,7 @@ const LockerModal = () => {
               type="button"
               className="btn btn-outline-secondary rounded-5"
               data-bs-dismiss="modal"
-              onClick={() => setLockerModal(false)}
+              onClick={closeModal}
             >
               Fechar
             </button>

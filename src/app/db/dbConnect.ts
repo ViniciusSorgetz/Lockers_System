@@ -8,10 +8,6 @@ async function dbConnect(){
     const db = await mongoose.connect(process.env.MONGODB_URL as string);
 
     connection.isConnected = db.connections[0].readyState;
-
 }
-
-//teste
-//meu comentário!
 
 export default dbConnect;
