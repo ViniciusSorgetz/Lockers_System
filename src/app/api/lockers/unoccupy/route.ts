@@ -1,15 +1,15 @@
 import dbConnect from "@/app/db/dbConnect";
 import Locker, { ILocker } from "@/app/models/Locker";
+import { objectIdSchema } from "@/app/schemas/schemas";
 import { NextResponse } from "next/server";
 import { z } from "zod";
-
 // unoccupy locker
 export async function POST(request: Request) : Promise<NextResponse>{
 
     await dbConnect();
 
     const vacateSchema = z.object({
-        locker_id : z.string(),
+        locker_id : objectIdSchema,
         reason: z.string()
     })
 

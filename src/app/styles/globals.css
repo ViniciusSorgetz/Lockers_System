@@ -1,14 +1,23 @@
 :root {
   --modalColor: #275FAF;
   --blue: #275FAF;
+  --red: #BD0F12;
+  --green: #439C43;
 }
 .light-mode{
   --background: white;
-  --gray1 : #ACACAC;
+  --gray1: #ACACAC;
   --gray2: #E4E4E4;
+  --text: black;
+}
+.dark-mode{
+  --background: #191919;
+  --gray1: #4E4E4E;
+  --gray2: #333333;
+  --text: white;
 }
 body{
-  background-color: var(--background);
+  background-color: var(--background) !important;
 }
 .content{
   margin: 20px 70px 70px 70px;
@@ -44,7 +53,6 @@ body{
   color: white;
 }
 .main{
-  background-color: white;
   padding: 25px 40px;
   border-radius: 20px;
   border: 2px solid var(--gray1);
@@ -64,22 +72,25 @@ body{
   gap: 25px;
   height: fit-content;
   font-weight: 600;
+  color: var(--text);
 }
 .btn-create i{
   -webkit-text-stroke: 1px
 }
-.meu-modal{
-  background-color: white;
+.my-modal{
+  background-color: var(--background);
   background-color: rgba(0, 0, 0, 0.541);
 }
-.meu-modal .modal-content{
-  padding: 10px;
+.my-modal .modal-content{
+  padding: 15px 25px;
+  border-radius: 30px;
+  border: none;
 }
 .modal-irregular{
-  --modalColor: #BD0F12;
+  --modalColor: var(--red);
 }
-.modal-livre{
-  --modalColor: #439C43;
+.modal-free{
+  --modalColor: var(--green);
 }
 .text-bold{
   color: var(--modalColor);

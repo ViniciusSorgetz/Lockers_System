@@ -3,10 +3,17 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useLockersContext } from "@/context/LockersContext";
 import { ILocker } from "../models/Locker";
+import LockerModal from "@/components/LockerModal";
 
 const LockersPage = () => {
 
-    const { lockers, setLockers, locker, setLocker, building, setBuilding } = useLockersContext();
+    const { 
+        lockers, setLockers, 
+        locker, setLocker, 
+        lockerState, setLockerState,
+        building, setBuilding,
+        lockerModal, setLockerModal
+    } = useLockersContext();
 
     useEffect(() => {
 
@@ -25,18 +32,21 @@ const LockersPage = () => {
             console.error("Erro ao buscar dados:", error);
         }
     };
-    
+
     const lockerClass = (locker: ILocker): string => {
         if (locker.occupied) {
             const deadline = locker.end_date ? new Date(locker.end_date) : null;
             const today = new Date();
-            if (deadline) return today > deadline ? "locker-irregular" : "locker-occupied";
+            if (deadline) return today > deadline ? "irregular" : "occupied";
         }
-        return "locker-free";
+        return "free";
     };
 
     const handleClick = (locker: ILocker): void => {
-
+        setLocker(locker);
+        setLockerModal(true);
+        const state = lockerClass(locker);
+        setLockerState(state);
     }
 
     const handleBuilding = (e : React.ChangeEvent<HTMLSelectElement>) : void => {
@@ -45,7 +55,8 @@ const LockersPage = () => {
         getData(letter);
     }
 
-    return (
+    return (<>
+        {lockerModal && <LockerModal/>}
         <div className="main">
             <div className="lockers-header">
                 <select
@@ -68,7 +79,7 @@ const LockersPage = () => {
                 {lockers?.map((locker) => (
                     <div
                         key={locker.number}
-                        className={"locker " + lockerClass(locker)}
+                        className={"locker locker-" + lockerClass(locker)}
                         onClick={() => handleClick(locker)}
                     >
                         {locker.number}
@@ -79,7 +90,7 @@ const LockersPage = () => {
                 )}
             </div>
         </div>
-    );
+    </>);
 };
 
 export default LockersPage;
