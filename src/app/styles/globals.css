@@ -61,6 +61,7 @@ body{
   display: flex;
   align-items: center;
   margin-bottom: 25px;
+  width: fit-content;
 }
 .btn-create{
   border: none;
@@ -86,8 +87,15 @@ body{
   border: none;
   background-color: var(--background);
 }
-.modal-content input, .modal-content select{
+.my-modal .modal-body{
+  max-height: 300px;
+  overflow-y: auto;
+}
+.my-modal .modal-content input, .my-modal .modal-content select{
   background-color: transparent;
+}
+.my-modal .modal-header{
+  display: block;
 }
 .modal-irregular{
   --modalColor: var(--red);
@@ -118,10 +126,29 @@ body{
   border-radius: 35px;
   margin: 0;
 }
-.armario-header {
-    display: flex; /* Ativa o Flexbox */
-    align-items: center; /* Centraliza verticalmente os itens */
-    gap: 10px; /* Adiciona um espaçamento fixo entre os itens */
+.locker-header {
+    display: flex;
+    align-items: center;
+}
+.locker-header .modal-title{
+  color: var(--modalColor);
+}
+.locker-info{
+  display: flex;
+  gap: 10px;
+}
+.locker-modal-section{
+  gap: 30px;
+}
+.locker-modal-section h6:hover{
+  cursor: pointer;
+}
+.locker-section-selected{
+  color: var(--modalColor);
+  font-weight: 600;
+  padding-bottom: 5px;
+  border-bottom: 2px solid var(--modalColor);
+  transform: translateY(4px);
 }
 
 /* SISTEMA DE TURMAS */

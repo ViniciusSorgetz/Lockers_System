@@ -80,7 +80,7 @@ const LockersPage = () => {
                 </button>
             </div>
             <div className="lockers">
-                {lockers?.map((locker) => (
+                {lockers.map((locker) => (
                     <div
                         key={locker.number}
                         className={"locker locker-" + lockerClass(locker)}

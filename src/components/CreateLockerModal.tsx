@@ -59,7 +59,7 @@ const CreateLockerModal = (props : { closeModal : () => void }) => {
         <div className={"modal my-modal"}style={{display: "block"}}>
             <div className="modal-dialog">
                 <div className="modal-content">
-                <div className="modal-header">
+                <div className="modal-header" style={{display: "flex"}}>
                     <h5 className="modal-title">Criar Armário</h5>
                     <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={closeModal}></button>
                 </div>
