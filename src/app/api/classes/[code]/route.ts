@@ -5,6 +5,43 @@ import { z } from "zod";
 
 const codeSchema = z.string().min(2);
 
+export async function GET(
+    request: Request, 
+    { params } : { params: Promise<{ code:string }> } 
+) : Promise<NextResponse>{
+
+    await dbConnect();
+
+    try {
+        const code = codeSchema.parse((await (params)).code);
+        const codeClass = await Class.findOne({code: code});
+
+        if(!codeClass) return NextResponse.json(
+            { message: "Sala não encontrada." },
+            { status: 404 }
+        )
+
+        return NextResponse.json(
+            { codeClass },
+            { status: 200 }
+        );
+        
+    } 
+    catch (error) {
+
+        if(error instanceof z.ZodError) return NextResponse.json(
+            { message: "Erro de requisição.", errors: error.issues },
+            { status: 400 }
+        );
+
+        console.error(error);
+        return NextResponse.json(
+            { message: "Erro ao adicionar aluno na sala. Tente novamente mais tarde." }, 
+            { status: 500 }
+        );
+    }
+}
+
 // adds a student to a class
 export async function POST(
     request: Request, 

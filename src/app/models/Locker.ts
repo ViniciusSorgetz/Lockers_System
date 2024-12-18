@@ -7,6 +7,7 @@ export interface History{
 }
 
 export interface ILocker{
+    _id?: mongoose.Types.ObjectId,
     building: "A" | "B" | "C" | "D",
     number: number,
     occupied: boolean,

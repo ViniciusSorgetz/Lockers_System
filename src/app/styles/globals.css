@@ -97,6 +97,9 @@ body{
 .my-modal .modal-header{
   display: block;
 }
+.my-modal select, .my-modal input:hover{
+  cursor: pointer;
+}
 .modal-irregular{
   --modalColor: var(--red);
 }
