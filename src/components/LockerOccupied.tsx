@@ -1,4 +1,5 @@
 import { Student } from "@/app/models/Class";
+import { ILocker } from "@/app/models/Locker";
 import formatDate from "@/app/utils/formatDate";
 import { useLockersContext } from "@/context/LockersContext";
 import axios from "axios";
@@ -11,6 +12,8 @@ const LockerOccupied = ( props : { closeModal : () => void }) => {
     const [ student, setStudent ] = useState<Student>();
 
     const [unnocupySection, setUnnocupySection] = useState(false);
+    const [reason, setReason] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
     useEffect (() => {
         getStudent();
@@ -22,7 +25,29 @@ const LockerOccupied = ( props : { closeModal : () => void }) => {
             setStudent(resp.data.student as Student);
         } 
         catch (error) {
-            
+            console.log("Algo deu errado.", error);
+        }
+    }
+
+    const unoccupyLocker = async () => {
+        if (reason == ""){
+            setErrorMessage("Escolha um motivo.");
+            return;
+        }
+        try {
+            const resp = await axios.post("/api/lockers/unoccupy", {
+                locker_id: locker._id,
+                reason: reason
+            });
+            const updatedLocker = resp.data.locker as ILocker;
+            const lockerIndex = lockers.findIndex(l => l.number == locker.number);
+            const lockersCopy = [...lockers];
+            lockersCopy[lockerIndex] = updatedLocker;
+            setLockers(lockersCopy);
+            closeModal();
+        } 
+        catch (error) {
+            console.log("Algo deu errado.", error);
         }
     }
 
@@ -32,17 +57,49 @@ const LockerOccupied = ( props : { closeModal : () => void }) => {
                 <div className="form-check">
                     <input 
                         className="form-check-input" type="radio" name="reason"
-                        />
+                        onChange={() => setReason("Saiu da Escola")}
+                    />
                     <label className="form-check-label">
-                        Default radio
-                    </label>
-                    </div>
-                    <div className="form-check">
-                    <input className="form-check-input" type="radio" name="reason"/>
-                    <label className="form-check-label">
-                        Default checked radio
+                        Saiu da Escola
                     </label>
                 </div>
+                <div className="form-check">
+                    <input 
+                        className="form-check-input" type="radio" name="reason"
+                        onChange={() => setReason("Não renovou")}
+                    />
+                    <label className="form-check-label">
+                        Não renovou
+                    </label>
+                </div>
+                <div className="form-check">
+                    <input 
+                        className="form-check-input" type="radio" name="reason"
+                        onChange={() => setReason("Foi expulso")}
+                    />
+                    <label className="form-check-label">
+                        Foi expulso
+                    </label>
+                </div>
+                <div className="form-check">
+                    <input 
+                        className="form-check-input" type="radio" name="reason"
+                        onChange={() => setReason("Não usava o armário")}
+                    />
+                    <label className="form-check-label">
+                        Não usava o armário
+                    </label>
+                </div>
+                <div className="form-check">
+                    <input 
+                        className="form-check-input" type="radio" name="reason"
+                        onChange={() => setReason("Outro")}
+                    />
+                    <label className="form-check-label">
+                        Outro
+                    </label>
+                </div>
+                {errorMessage.length > 1 && <span className="text-danger">{errorMessage}</span>}
             </div> 
             <div className="modal-footer">
             <button
@@ -56,6 +113,7 @@ const LockerOccupied = ( props : { closeModal : () => void }) => {
             <button 
                 type="button" 
                 className="btn-main rounded-5"
+                onClick={unoccupyLocker}
             >
                 Liberar Armário <i className="bi bi-lock-fill"></i>
             </button>
