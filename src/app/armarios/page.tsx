@@ -31,7 +31,7 @@ const LockersPage = () => {
             const sortedLockers = data.sort((a:ILocker, b:ILocker) => a.number - b.number);
             setLockers(sortedLockers);
 
-        } catch (error) {
+        } catch (error : unknown) {
             console.error("Erro ao buscar dados:", error);
         }
     };

@@ -2,42 +2,44 @@ import { ILocker } from "@/app/models/Locker";
 import { useLockersContext } from "@/context/LockersContext";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
 const CreateLockerModal = (props : { closeModal : () => void }) => {
 
-    const { 
-        lockers, setLockers, 
-        locker, setLocker, 
-        lockerState, setLockerState,
-        building, setBuilding,
-    } = useLockersContext();
-
     const { closeModal } = props;
-    const [lockerNumber, setLockerNumber] = useState(1);
-    const [errorMessage, setErrorMessage] = useState("");
+    const { lockers, setLockers, building } = useLockersContext();
+
+    const lockerFormSchema = z.object({
+        number: z.string().transform(number => Number(number)).refine((number : number) => {
+            const checkLocker = lockers?.findIndex((l : ILocker) => l.number == number);
+            return checkLocker == -1;
+        }, "Este armário já existe.")
+    });
+    type lockerFormData = z.infer<typeof lockerFormSchema>
+
+    const { register, handleSubmit, reset, formState : {errors} } = useForm<lockerFormData>({
+        resolver : zodResolver(lockerFormSchema)
+    }); 
 
     useEffect(() => {
         nextNumber();
-        
     }, [lockers]);
 
     const nextNumber = () : void => {
         if(lockers && lockers.length > 1)
             for(let i = 0; i < lockers.length - 1; i++)
                 if(lockers[i+1].number - lockers[i].number > 1)
-                    return setLockerNumber(i+2);
-        if(lockers) setLockerNumber(lockers.length+1);
+                    return reset({number: i+2});
+        if(lockers) reset({number: lockers.length+1});
     }
 
-    const addLocker = async () => {
-        // check locker if it doesn't already exist
-        if(lockers?.findIndex((l : ILocker) => l.number == lockerNumber) != -1){
-            setErrorMessage("Este armário já existe.");
-        }
+    const addLocker = async (data : lockerFormData) => {
         try {
             const resp = await axios.post("api/lockers", {
                 building : building,
-                number: lockerNumber
+                number: data.number
             });
             const addedLocker = resp.data.locker;
             const lockersCopy = [...lockers];
@@ -51,10 +53,6 @@ const CreateLockerModal = (props : { closeModal : () => void }) => {
         }
     }
 
-    const handleChange = (e : React.ChangeEvent<HTMLInputElement>) : void => {
-        setLockerNumber(Number(e.target.value));
-    }
-
     return (
         <div className={"modal my-modal"}style={{display: "block"}}>
             <div className="modal-dialog">
@@ -63,22 +61,25 @@ const CreateLockerModal = (props : { closeModal : () => void }) => {
                     <h5 className="modal-title">Criar Armário</h5>
                     <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={closeModal}></button>
                 </div>
-                <div className="modal-body">
-                    <label>Número do armário</label><br/><br/>
-                    <input 
-                        type="number" 
-                        className="form-control" 
-                        onChange={handleChange}
-                        value={lockerNumber}
-                    />
-                    {errorMessage.length > 1 && 
-                        <p className="text-danger mt-4">{errorMessage}</p>
-                    }
-                </div>
-                <div className="modal-footer">
-                    <button type="button" className="btn btn-outline-secondary" data-bs-dismiss="modal" onClick={(closeModal)}>Fechar</button>
-                    <button type="button" className="btn btn-outline-primary" onClick={addLocker}>Adicionar armário</button>
-                </div>
+                    <form onSubmit={handleSubmit(addLocker)}>
+                        <div className="modal-body">
+                            <label>Número do armário</label><br/><br/>
+                            <input 
+                                type="number" 
+                                min={1}
+                                className="form-control" 
+                                {...register("number")}
+                            />
+                            {errors.number && 
+                                <span className="small text-danger">
+                                    {errors.number.message}
+                                </span>}
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-outline-secondary" data-bs-dismiss="modal" onClick={(closeModal)}>Fechar</button>
+                            <button type="submit" className="btn btn-outline-primary">Adicionar armário</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

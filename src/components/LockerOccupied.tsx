@@ -46,7 +46,7 @@ const LockerOccupied = ( props : { closeModal : () => void }) => {
             setLockers(lockersCopy);
             closeModal();
         } 
-        catch (error) {
+        catch (error : unknown) {
             console.log("Algo deu errado.", error);
         }
     }

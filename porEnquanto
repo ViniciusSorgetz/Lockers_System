@@ -1,0 +1,25 @@
+try {
+  
+          const resp = await axios.post("/api/lockers/occupy", {
+            locker_id: locker?._id,
+            student_id: selectedSutent,
+            deadline: lockerDeadline + "T00:00:00"
+          });
+          const updatedLocker = resp.data.locker as ILocker;
+          const lockerIndex = lockers.findIndex(l => l.number == locker.number);
+          const updatedLockers = [...lockers];
+          updatedLockers[lockerIndex] = updatedLocker;
+          setLockers(updatedLockers);
+          closeModal();
+        } 
+        catch (error : unknown) {
+          setErrorMessage("Dados incorretos.");
+          console.log("Algo de errado.", error)
+        }
+
+        const deadLine = new Date(lockerDeadline + "T00:00:00");
+        const today = new Date(Date.now());
+        if(today > deadLine){
+          setErrorMessage("Prazo inválido.");
+          return;
+        }
