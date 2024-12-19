@@ -7,6 +7,7 @@ export interface Student{
 }
 
 export interface IClass{
+    _id?: Types.ObjectId
     code: string,
     students: Student[]
 }

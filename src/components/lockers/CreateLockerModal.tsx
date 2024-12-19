@@ -12,7 +12,7 @@ const CreateLockerModal = (props : { closeModal : () => void }) => {
     const { lockers, setLockers, building } = useLockersContext();
 
     const lockerFormSchema = z.object({
-        number: z.string().transform(number => Number(number)).refine((number : number) => {
+        number: z.coerce.number().refine((number : number) => {
             const checkLocker = lockers?.findIndex((l : ILocker) => l.number == number);
             return checkLocker == -1;
         }, "Este armário já existe.")

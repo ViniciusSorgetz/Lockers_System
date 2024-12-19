@@ -1,0 +1,26 @@
+
+.class_item{
+    border: 1px solid black;
+    border-radius: 12px;
+    padding: 25px;
+    cursor: pointer;
+    list-style: none;
+    text-decoration: inherit;
+    color: var(text);
+}
+.classes{
+    display: flex;
+    gap: 20px;
+}
+.student{
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid var(--gray2);
+    justify-content: space-between;
+}
+.student-controller{
+    gap: 20px;
+}
+.student-controller i:hover{
+    cursor: pointer;
+}

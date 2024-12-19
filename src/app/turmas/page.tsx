@@ -2,37 +2,40 @@
 
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { ITurma } from '../models/Turma';
+import { useClassesContext } from '@/context/ClassesContext';
+import Link from 'next/link';
+import ClassPage from '@/components/classes/ClassPage';
 
 const Turmas = () => {
-  const [turmas, setTurmas] = useState<ITurma[]>([]); 
-  useEffect(() => {
-    getData(); 
-  }, []);
 
-  const getData = async () => {
-    try {
-      const response = await axios.get('/api/turmas'); 
-      setTurmas(response.data); 
-    } catch (error) {
-      console.error('Erro ao buscar as turmas:', error); 
-    }
-  };
-
+  const { classes, setCurrentClass } = useClassesContext();
+  const [classesPage, setClassesPage] = useState(true);
 
   return (
     <div className="main">
-        <div className="turmas-header">
-            <label className="p-2">Turmas</label>
-            <button className="btn-criar">
-                Adicionar armário <i className="bi bi-plus-lg"></i>
+        {classesPage ? <>
+          <div className="turmas-header">
+            <label className="p-2 text-600">Turmas</label>
+            <button className="btn-create">
+                Criar turma <i className="bi bi-plus-lg"></i>
             </button>
         </div>
-        <div className="turmas">
-            {turmas.map((turma, index) => (
-            <div className="turma" key={index}>{turma.codigo}</div> 
+        <div className="classes">
+            {classes.map((currentClass, index) => (
+              <div 
+                className="class_item text-600" 
+                key={index}
+                onClick={() => {
+                  setCurrentClass(currentClass);
+                  setClassesPage(false);
+                }}
+              >
+                {currentClass.code}
+              </div> 
             ))}
         </div>
+        </> : <ClassPage closePage={() => setClassesPage(true)}/>
+        }
     </div>
   );
 };

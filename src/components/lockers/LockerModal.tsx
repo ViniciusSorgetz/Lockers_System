@@ -1,9 +1,4 @@
-import { IClass, Student } from "@/app/models/Class";
-import { ILocker } from "@/app/models/Locker";
-import lockerClass from "@/app/utils/lockerClass";
-import { useClassesContext } from "@/context/ClassesContext";
 import { useLockersContext } from "@/context/LockersContext";
-import axios from "axios";
 import { useState } from "react";
 import LockerFree from "./LockerFree";
 import LockerOccupied from "./LockerOccupied";

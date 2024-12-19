@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useLockersContext } from "@/context/LockersContext";
 import { ILocker } from "../models/Locker";
-import LockerModal from "@/components/LockerModal";
-import CreateLockerModal from "@/components/CreateLockerModal";
+import LockerModal from "@/components/lockers/LockerModal";
+import CreateLockerModal from "@/components/lockers/CreateLockerModal";
 
 const LockersPage = () => {
 
