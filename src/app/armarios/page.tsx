@@ -74,7 +74,7 @@ const LockersPage = () => {
                     <option value="C">Predio C</option>
                     <option value="D">Predio D</option>
                 </select>
-                <button className="btn-create" onClick={() => {setCreateLockerModal(true)}}>
+                <button className="btn-cool btn-gray" onClick={() => {setCreateLockerModal(true)}}>
                     Adicionar armário
                     <i className="bi bi-plus-lg"></i>
                 </button>
@@ -90,7 +90,7 @@ const LockersPage = () => {
                     </div>
                 ))}
                 {lockers?.length === 0 && (
-                    <label className="my-3">Sem armários por aqui...</label>
+                    <label className="my-3 color-main">Sem armários por aqui...</label>
                 )}
             </div>
         </div>

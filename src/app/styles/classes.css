@@ -1,6 +1,6 @@
 
 .class_item{
-    border: 1px solid black;
+    border: 1px solid var(--main);
     border-radius: 12px;
     padding: 25px;
     cursor: pointer;

@@ -27,8 +27,9 @@ export const ClassesWrapper = ({ children }: { children: React.ReactNode }) => {
     const getClasses = async () => {
         try {
             const resp = await axios.get("api/classes");
-            setClasses(resp.data.classes as IClass[]);
-            console.log(resp.data.classes);
+            const classesResp = resp.data.classes as IClass[];
+            classesResp.sort((a: IClass, b: IClass) => a.code.localeCompare(b.code));
+            setClasses(classesResp);
         } 
         catch (error) {
             console.log("Algo deu errado.", error);

@@ -31,10 +31,10 @@ const LockerModal = (props : { closeModal : () => void }) => {
         <div className="modal-content">
           <div className="modal-header">
             <div className="locker-header">
-              <div className="locker-info">
-                <h5 className="modal-title">
+              <div className="locker-info d-flex align-items-center">
+                <span className="modal-title h5">
                   {locker.number} {building}
-                </h5>
+                </span>
                 <h5 className="estado">{getLockerClass()}</h5>
               </div>
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={closeModal}></button>

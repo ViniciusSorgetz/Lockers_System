@@ -68,6 +68,7 @@ body{
 }
 .text-600{
   font-weight: 600;
+  color: var(--main)
 }
 .lockers-header, .turmas-header{
   display: flex;
@@ -75,7 +76,7 @@ body{
   margin-bottom: 25px;
   width: fit-content;
 }
-.btn-create{
+.btn-cool{
   border: none;
   border-radius: 35px;
   padding: 5px 15px;
@@ -87,8 +88,23 @@ body{
   font-weight: 600;
   color: var(--main);
 }
-.btn-create i{
+.btn-gray{
+  background-color: var(--gray2);
+}
+.btn-gray i{
   -webkit-text-stroke: 1px
+}
+.btn-blue{
+  background-color: var(--blue);
+  color: white;
+}
+.btn-modal{
+  background-color: var(--modalColor);
+  color: white;
+}
+.btn-red{
+  background-color: var(--red);
+  color: white;
 }
 .my-modal{
   background-color: rgba(0, 0, 0, 0.623);

@@ -13,8 +13,7 @@ const CreateLockerModal = (props : { closeModal : () => void }) => {
 
     const lockerFormSchema = z.object({
         number: z.coerce.number().refine((number : number) => {
-            const checkLocker = lockers?.findIndex((l : ILocker) => l.number == number);
-            return checkLocker == -1;
+            return lockers?.find((l : ILocker) => l.number == number) == undefined
         }, "Este armário já existe.")
     });
     type lockerFormData = z.infer<typeof lockerFormSchema>
@@ -41,7 +40,7 @@ const CreateLockerModal = (props : { closeModal : () => void }) => {
                 building : building,
                 number: data.number
             });
-            const addedLocker = resp.data.locker;
+            const addedLocker = resp.data.locker as ILocker;
             const lockersCopy = [...lockers];
             lockersCopy.push(addedLocker);
             lockersCopy.sort((a:ILocker, b:ILocker) => a.number - b.number);
@@ -57,13 +56,13 @@ const CreateLockerModal = (props : { closeModal : () => void }) => {
         <div className={"modal my-modal"}style={{display: "block"}}>
             <div className="modal-dialog">
                 <div className="modal-content">
-                <div className="modal-header" style={{display: "flex"}}>
+                <div className="modal-header d-flex">
                     <h5 className="modal-title">Criar Armário</h5>
                     <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={closeModal}></button>
                 </div>
                     <form onSubmit={handleSubmit(addLocker)}>
                         <div className="modal-body">
-                            <label>Número do armário</label><br/><br/>
+                            <label className="text-600 py-2">Número do armário</label><br/>
                             <input 
                                 type="number" 
                                 min={1}
@@ -76,8 +75,8 @@ const CreateLockerModal = (props : { closeModal : () => void }) => {
                                 </span>}
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-outline-secondary" data-bs-dismiss="modal" onClick={(closeModal)}>Fechar</button>
-                            <button type="submit" className="btn btn-outline-primary">Adicionar armário</button>
+                            <button type="button" className="btn-cool btn-gray" data-bs-dismiss="modal" onClick={(closeModal)}>Fechar</button>
+                            <button type="submit" className="btn-cool btn-blue">Adicionar armário</button>
                         </div>
                     </form>
                 </div>

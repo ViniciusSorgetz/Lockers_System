@@ -108,13 +108,13 @@ const LockerFree = (props : { closeModal : () => void }) => {
             <div className="modal-footer">
                 <button
                     type="button"
-                    className="btn btn-outline-secondary rounded-5"
+                    className="btn-cool btn-gray"
                     data-bs-dismiss="modal"
                     onClick={closeModal}
                 >
                     Fechar
                 </button>
-                <button type="submit" className="btn-main rounded-5">
+                <button type="submit" className="btn-cool btn-modal">
                     Ocupar Armário <i className="bi bi-lock-fill"></i>
                 </button>
             </div>
