@@ -51,7 +51,7 @@ export async function POST(
     await dbConnect();
     const studentSchema = z.object({
         name: z.string().min(1),
-        phone_number: z.string().min(9).optional()
+        phone_number: z.string().min(9).optional().or(z.literal(''))
     });
 
     try {
@@ -77,8 +77,11 @@ export async function POST(
         studentClass.students.push(student); 
 
         await Class.updateOne({code: code}, studentClass);
+        const updatedStudent = <Student | undefined> studentClass.students.find((s : Student) => 
+            s.name == student.name);
+
         return NextResponse.json(
-            { message: "Aluno adicionado com sucesso.", student },
+            { message: "Aluno adicionado com sucesso.", student: updatedStudent },
             { status: 201 }
         );
     } 

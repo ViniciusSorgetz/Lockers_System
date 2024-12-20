@@ -3,17 +3,20 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useClassesContext } from "@/context/ClassesContext";
 import axios from "axios";
-import { IClass } from "@/app/models/Class";
+import { Student } from "@/app/models/Class";
 
 const CreateStudentModal = (props : {closeModal : () => void}) => {
 
     const { closeModal } = props;
-    const { classes, setClasses } = useClassesContext();
+    const { classes, setClasses, currentClass, setCurrentClass } = useClassesContext();
 
     const studentFormSchema = z.object({
         name: z.string()
             .nonempty("Necessário informar o nome do estudante.")
-            .min(2, "Nome curto demais."),
+            .min(2, "Nome curto demais.")
+            .refine(name => {
+                return currentClass.students.find((s:Student) => s.name == name) == undefined;
+            }, "Este estudante já existe nesta turma."),
         phone_number: z.string()
             .min(9, "O número de telefone deve conter ao menos 9 caracteres").optional().or(z.literal(''))
     });
@@ -25,7 +28,17 @@ const CreateStudentModal = (props : {closeModal : () => void}) => {
 
     const createClass = async (data : studentFormData) => {
         try {
-            
+            const response = await axios.post(`/api/classes/${currentClass.code}`, {...data});
+            const newStudent = response.data.student as Student;
+            const currentClassCopy = currentClass;
+            currentClassCopy.students.push(newStudent)
+            currentClassCopy.students.sort((a:Student, b:Student) => a.name.localeCompare(b.name));
+            setCurrentClass(currentClassCopy);
+            const index = classes.findIndex(c => c.code == currentClass.code);
+            const classesCopy = classes;
+            classesCopy[index] = currentClassCopy;
+            setClasses(classesCopy);
+            closeModal()
         } 
         catch (error) {
             console.log("Algo deu errado.", error);

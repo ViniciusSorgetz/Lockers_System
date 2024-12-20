@@ -6,6 +6,7 @@ import { useClassesContext } from '@/context/ClassesContext';
 import Link from 'next/link';
 import ClassPage from '@/components/classes/ClassPage';
 import CreateclassNameModal from '@/components/classes/CreateClassModal';
+import { Student } from '../models/Class';
 
 const Turmas = () => {
 
@@ -38,6 +39,9 @@ const Turmas = () => {
                   className="class_item text-600 color-main" 
                   key={index}
                   onClick={() => {
+                    currentClass.students.sort((a: Student, b:Student) => 
+                      a.name.localeCompare(b.name)
+                    );
                     setCurrentClass(currentClass);
                     setClassesPage(false);
                   }}
