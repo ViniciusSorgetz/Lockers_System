@@ -185,3 +185,12 @@ body{
   text-decoration: none;
   color: var(--main);
 }
+.login-form{
+  border: 1px solid var(--gray1);
+  padding: 20px;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 700px;
+  margin: auto;
+  margin-top: 10%;
+}

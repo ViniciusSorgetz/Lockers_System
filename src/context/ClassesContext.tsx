@@ -13,7 +13,7 @@ type ClassesContextType = {
     setCurrentClass: React.Dispatch<React.SetStateAction<IClass>>
 };
 
-const ClassesContext = createContext<ClassesContextType | undefined>(undefined);
+const ClassesContext = createContext({} as ClassesContextType);
 
 export const ClassesWrapper = ({ children }: { children: React.ReactNode }) => {
     

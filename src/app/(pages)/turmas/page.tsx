@@ -6,7 +6,7 @@ import { useClassesContext } from '@/context/ClassesContext';
 import Link from 'next/link';
 import ClassPage from '@/components/classes/ClassPage';
 import CreateclassNameModal from '@/components/classes/CreateClassModal';
-import { Student } from '../models/Class';
+import { Student } from '@/app/models/Class';
 
 const Turmas = () => {
 

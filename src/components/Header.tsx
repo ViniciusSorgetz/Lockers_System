@@ -10,11 +10,12 @@ const Header = () => {
   const pathname = usePathname(); // obtains the current url
 
   // defines the class based in the url
-  const headerClass = pathname.includes("armarios") ? 'header header-lockers' : 
-                      pathname.includes("turmas") ? 'header header-classes' : 
+  const headerClass = pathname == "/armarios" ? 'header header-lockers' : 
+                      pathname == "/turmas" ? 'header header-classes' : 
                       'header';
  
   return (
+    pathname != "/login" ?
     <div className={headerClass}>
         <Image src={cimol} alt="header" style={{ height: "90px", width: "auto" }} />
         <div className="header-selection">
@@ -27,6 +28,7 @@ const Header = () => {
         </div>
         <Image src={info} alt="header" style={{ height: "60px", width: "auto" }} />
     </div>
+    : <></>
   );
 };
 
