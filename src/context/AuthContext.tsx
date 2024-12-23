@@ -24,20 +24,16 @@ export const AuthWrapper = ({children} : {children : React.ReactNode}) => {
     const router = useRouter();
     
     const signIn = async (data : SignInData) : Promise<void> => {
-        try {
-            const resp = await axios.post("/api/auth/login", data);
-            const token = resp.data.token as string;
-            const cookies = new Cookies(null, { path : "/" });
-            cookies.set("lockersSystem-token", token, {
-                maxAge: 60 * 60 * 24 * 180 // 180 days / about 6 months
-            });
-            api.defaults.headers["Authorization"] = `Bearer ${token}`;
-            setIsAuthenticated(true);
-            router.push("/armarios");
-        } 
-        catch (error) {
-            console.log("Algo deu errado.", error)  ;  
-        } 
+        
+        const resp = await axios.post("/api/auth/login", data);
+        const token = resp.data.token as string;
+        const cookies = new Cookies(null, { path : "/" });
+        cookies.set("lockersSystem-token", token, {
+            maxAge: 60 * 60 * 24 * 180 // 180 days / about 6 months
+        });
+        api.defaults.headers["Authorization"] = `Bearer ${token}`;
+        setIsAuthenticated(true);
+        router.push("/armarios");
     }
 
     const checkToken = () => {

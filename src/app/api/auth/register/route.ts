@@ -1,31 +1,26 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import { z } from "zod";
 import Admin from "@/app/models/Admin";
 
 export async function POST(request : Request): Promise<NextResponse>{
     try {
         const loginData = z.object({
-            name : z.string().nonempty(),
-            password: z.string().nonempty()
+            name : z.string().nonempty().min(5),
+            password: z.string().nonempty().min(5)
         });
         const { name, password } = loginData.parse(await request.json());
-        const admin = await Admin.findOne({name: name});
-        if(!admin) return NextResponse.json(
-            { message: "Admin não encontrado." },
-            { status: 404 }
-        );
-
-        const checkPassword = await bcrypt.compare(password, admin.password);
-        if(!checkPassword) return NextResponse.json(
-            { message: "Senha incorreta." },
+        const checkName = await Admin.findOne({name: name});
+        if(checkName) return NextResponse.json(
+            { message: "Documento com esse nome já existe." },
             { status: 400 }
         )
-        const secret = process.env.SECRET as string;
-        const token = jwt.sign({name}, secret) // without expiration value;
+        await bcrypt.hash(password, 10).then(async hash => {
+            await Admin.create({name, password: hash});
+        });
+        
         return NextResponse.json(
-            { token },
+            { message: "Dados do admin criados com sucesso." },
             { status: 200 }
         )
     } 

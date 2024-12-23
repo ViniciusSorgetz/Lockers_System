@@ -8,9 +8,10 @@ export async function POST(request : Request): Promise<NextResponse>{
     try {
         const loginData = z.object({
             name : z.string().nonempty(),
-            password: z.string().nonempty()
+            password: z.string().nonempty(),
+            newPassword : z.string().nonempty().min(5),
         });
-        const { name, password } = loginData.parse(await request.json());
+        const { name, password, newPassword } = loginData.parse(await request.json());
         const admin = await Admin.findOne({name: name});
         if(!admin) return NextResponse.json(
             { message: "Admin não encontrado." },
@@ -21,11 +22,15 @@ export async function POST(request : Request): Promise<NextResponse>{
         if(!checkPassword) return NextResponse.json(
             { message: "Senha incorreta." },
             { status: 400 }
-        )
-        const secret = process.env.SECRET as string;
-        const token = jwt.sign({name}, secret) // without expiration value;
+        );
+
+        await bcrypt.hash(newPassword, 10).then(async hash => {
+            admin.password = hash;
+            await admin.save();
+        });
+        
         return NextResponse.json(
-            { token },
+            { message: "Senha atualizada com sucesso." },
             { status: 200 }
         )
     } 
