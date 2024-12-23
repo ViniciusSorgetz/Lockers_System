@@ -187,10 +187,10 @@ body{
 }
 .login-form{
   border: 1px solid var(--gray1);
-  padding: 20px;
+  padding: 40px 20px;
   border-radius: 20px;
   width: 100%;
   max-width: 700px;
   margin: auto;
-  margin-top: 10%;
+  margin-top: 8%;
 }

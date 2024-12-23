@@ -1,18 +1,21 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useClassesContext } from '@/context/ClassesContext';
-import Link from 'next/link';
 import ClassPage from '@/components/classes/ClassPage';
 import CreateclassNameModal from '@/components/classes/CreateClassModal';
 import { Student } from '@/app/models/Class';
+import { useRouter } from 'next/navigation';
 
 const Turmas = () => {
 
   const { classes, setCurrentClass } = useClassesContext();
   const [classesPage, setClassesPage] = useState(true);
   const [createClassModal, setCreateClassModal] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {}, [isLoggedIn]);
 
   return (<>
     {createClassModal && <CreateclassNameModal closeModal={() => setCreateClassModal(false)}/>}
@@ -33,7 +36,8 @@ const Turmas = () => {
                   <i className="bi bi-trash"></i>
               </button>
           </div>
-          <div className="classes">
+          {isLoggedIn ? 
+            <div className="classes">
               {classes.map((currentClass, index) => (
                 <div 
                   className="class_item text-600 color-main" 
@@ -49,7 +53,8 @@ const Turmas = () => {
                   {currentClass.code}
                 </div> 
               ))}
-          </div>
+          </div> 
+        : <></>}
         </div> : <ClassPage closePage={() => setClassesPage(true)}/>
         }
   </>);

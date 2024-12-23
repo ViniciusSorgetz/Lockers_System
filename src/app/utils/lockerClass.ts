@@ -1,4 +1,4 @@
-import { ILocker } from "../models/Locker";
+import { ILocker } from "@/app/models/Locker";
 
 const lockerClass = (locker: ILocker): string => {
         if (locker.occupied) {

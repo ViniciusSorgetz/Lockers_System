@@ -5,6 +5,7 @@ import { useLockersContext } from "@/context/LockersContext";
 import { ILocker } from "@/app/models/Locker";
 import LockerModal from "@/components/lockers/LockerModal";
 import CreateLockerModal from "@/components/lockers/CreateLockerModal";
+import { useAuthContext } from "@/context/AuthContext";
 
 const LockersPage = () => {
 
@@ -17,13 +18,14 @@ const LockersPage = () => {
 
     const [lockerModal, setLockerModal] = useState(false);
     const [createLockerModal, setCreateLockerModal] = useState(false);
+    const { isAuthenticated } = useAuthContext();
 
     useEffect(() => {
-
         getData('A');
-    }, []);
+    }, [isAuthenticated]);
 
     const getData = async (letter : 'A' | 'B' | 'C' | 'D') => {
+        if(!isAuthenticated) return;
         try {
             const resp = await axios.get(`api/lockers/building/${letter}`);
             const data = resp.data as ILocker[];

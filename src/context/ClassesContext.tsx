@@ -3,6 +3,7 @@
 import { IClass } from '@/app/models/Class';
 import axios from 'axios';
 import { createContext, useContext, useEffect, useState } from 'react';
+import { useAuthContext } from './AuthContext';
 
 const defaultClass : IClass = { code: "123", students: [] }
 
@@ -19,12 +20,14 @@ export const ClassesWrapper = ({ children }: { children: React.ReactNode }) => {
     
     const [classes, setClasses] = useState<IClass[]>([]);
     const [currentClass, setCurrentClass] = useState<IClass>(defaultClass);
+    const { isAuthenticated } = useAuthContext();
 
     useEffect(() => {
         getClasses();
-    }, []);
+    }, [isAuthenticated]);
 
     const getClasses = async () => {
+        if(!isAuthenticated) return;
         try {
             const resp = await axios.get("api/classes");
             const classesResp = resp.data.classes as IClass[];
