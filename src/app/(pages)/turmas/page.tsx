@@ -6,22 +6,23 @@ import ClassPage from '@/components/classes/ClassPage';
 import CreateclassNameModal from '@/components/classes/CreateClassModal';
 import { Student } from '@/app/models/Class';
 import { useRouter } from 'next/navigation';
+import { useAuthContext } from '@/context/AuthContext';
 
 const Turmas = () => {
 
   const { classes, setCurrentClass } = useClassesContext();
   const [classesPage, setClassesPage] = useState(true);
   const [createClassModal, setCreateClassModal] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { isAuthenticated } = useAuthContext();
   const router = useRouter();
 
-  useEffect(() => {}, [isLoggedIn]);
+  useEffect(() => {}, [isAuthenticated]);
 
   return (<>
     {createClassModal && <CreateclassNameModal closeModal={() => setCreateClassModal(false)}/>}
         {classesPage ? 
           <div className="main">
-            <div className="turmas-header">
+            <div className="classes-header d-flex flex-column flex-md-row justify-content-center">
               <label className="p-2 text-600 color-main">Turmas</label>
               <button className="btn-cool btn-gray" onClick={() => setCreateClassModal(true)}>
                   Criar turma 
@@ -36,8 +37,8 @@ const Turmas = () => {
                   <i className="bi bi-trash"></i>
               </button>
           </div>
-          {isLoggedIn ? 
-            <div className="classes">
+          {isAuthenticated ? 
+            <div className="classes limit">
               {classes.map((currentClass, index) => (
                 <div 
                   className="class_item text-600 color-main" 

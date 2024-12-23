@@ -16,19 +16,21 @@ const ClassPage = (props : { closePage : () => void }) => {
             <CreateStudentModal closeModal={() => setCreateStudentModal(false)}/>
         }
         <div className="main">
-            <div className="mb-5 turmas-header">
-                <i 
-                    className="bi bi-caret-left-fill color-main" 
-                    style={{cursor: "pointer"}}
-                    onClick={closePage}
-                ></i>
-                <span className="text-600 color-main px-4">{currentClass.code}</span>
+            <div className="classes-header d-flex flex-column flex-md-row justify-content-center">
+                <div>
+                    <i 
+                        className="bi bi-caret-left-fill color-main" 
+                        style={{cursor: "pointer"}}
+                        onClick={closePage}
+                    ></i>
+                    <span className="text-600 color-main px-4">{currentClass.code}</span>
+                </div>
                 <button className="btn-cool btn-gray" onClick={() => setCreateStudentModal(true)}>
                     Adicionar aluno
                     <i className="bi bi-plus-lg"></i>
                 </button>
             </div>
-            <div className="students d-grid gap-4">
+            <div className="students d-grid gap-4 limit">
                 {currentClass.students.map(student => (
                     <div className="student">
                         <div className="d-flex align-items-center">

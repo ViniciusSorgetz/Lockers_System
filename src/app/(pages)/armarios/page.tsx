@@ -64,7 +64,7 @@ const LockersPage = () => {
         {lockerModal && <LockerModal closeModal={() => setLockerModal(false)}/>}
         {createLockerModal && <CreateLockerModal closeModal={() => setCreateLockerModal(false)}/>}
         <div className="main">
-            <div className="lockers-header">
+            <div className="lockers-header d-flex flex-column flex-md-row justify-content-center">
                 <select
                     className="lockers-select"
                     aria-label="building select"
@@ -81,7 +81,7 @@ const LockersPage = () => {
                     <i className="bi bi-plus-lg"></i>
                 </button>
             </div>
-            <div className="lockers">
+            <div className="lockers limit">
                 {lockers.map((locker) => (
                     <div
                         key={locker.number}

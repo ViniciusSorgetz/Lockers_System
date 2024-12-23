@@ -29,7 +29,7 @@ body{
   background-color: var(--background) !important;
 }
 .content{
-  margin: 20px 70px 70px 70px;
+  margin: 3%;
 }
 .header{
   width: 100%;
@@ -62,7 +62,7 @@ body{
   color: white;
 }
 .main{
-  padding: 25px 40px;
+  padding: 2%;
   border-radius: 20px;
   border: 2px solid var(--gray1);
 }
@@ -70,8 +70,7 @@ body{
   font-weight: 600;
   color: var(--main)
 }
-.lockers-header, .turmas-header{
-  display: flex;
+.lockers-header, .classes-header{
   align-items: center;
   margin-bottom: 25px;
   width: fit-content;
@@ -193,4 +192,30 @@ body{
   max-width: 700px;
   margin: auto;
   margin-top: 8%;
+}
+.limit{
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+  .btn-cool {
+    margin-left: 0px;
+    margin-top: 10px;
+  }
+  .main{
+    padding: 5%;
+  }
+  .lockers-header, .classes-header{
+    width: 100%;
+  }
+  .header img{
+    display: none;
+  }
+  .header{
+      justify-content: center;
+  }
+  .limit{
+    max-height: 70vh;
+  }
 }

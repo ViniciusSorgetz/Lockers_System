@@ -10,6 +10,7 @@
 }
 .classes{
     display: flex;
+    flex-wrap: wrap;
     gap: 20px;
 }
 .student{
@@ -17,10 +18,24 @@
     align-items: center;
     border-bottom: 2px solid var(--gray2);
     justify-content: space-between;
+    padding-right: 5px;
 }
 .student-controller{
     gap: 20px;
 }
 .student-controller i:hover{
     cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .class_item{
+        padding: 20px;
+    }
+    .classes{
+        justify-content: center;
+    }
+    .classes-header .btn-cool{
+        width: 200px;
+        justify-content: center;
+    }
 }

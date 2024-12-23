@@ -37,3 +37,14 @@
     background-color: transparent;
     color: var(--main)
 }
+
+@media (max-width: 768px) {
+    .locker{
+        width: 65px;
+        height: 65px;
+        font-size: 1.2rem;
+    }
+    .lockers{
+        justify-content: center;
+    }
+}
