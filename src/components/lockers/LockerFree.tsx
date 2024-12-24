@@ -21,9 +21,12 @@ const occupyLockerFormSchema = z.object({
 
 type occupyLockerData = z.infer<typeof occupyLockerFormSchema>
 
-const LockerFree = (props : { closeModal : () => void }) => {
+const LockerFree = (props : { 
+    closeModal : () => void,
+    openDeleteModal : () => void 
+    }) => {
 
-    const { closeModal } = props;
+    const { closeModal, openDeleteModal } = props;
     const { register, handleSubmit, formState : {errors}, reset } = useForm<occupyLockerData>({
         resolver : zodResolver(occupyLockerFormSchema)
     });
@@ -106,6 +109,14 @@ const LockerFree = (props : { closeModal : () => void }) => {
                 </div>
             </div>
             <div className="modal-footer">
+                <button
+                    type="button"
+                    className="btn-cool btn-red"
+                    data-bs-dismiss="modal"
+                    onClick={openDeleteModal}
+                >
+                    <i className="bi bi-trash"></i>
+                </button>
                 <button
                     type="button"
                     className="btn-cool btn-gray"

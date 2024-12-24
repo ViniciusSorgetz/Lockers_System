@@ -6,8 +6,8 @@ import Admin from "@/app/models/Admin";
 export async function POST(request : Request): Promise<NextResponse>{
     try {
         const loginData = z.object({
-            name : z.string().nonempty().min(5),
-            password: z.string().nonempty().min(5)
+            name : z.string().trim().nonempty().min(5),
+            password: z.string().trim().nonempty().min(5)
         });
         const { name, password } = loginData.parse(await request.json());
         const checkName = await Admin.findOne({name: name});

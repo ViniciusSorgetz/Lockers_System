@@ -57,8 +57,8 @@ export async function PATCH(
 
     await dbConnect();
     const studentSchema = z.object({
-        name: z.string().min(1).optional(),
-        phone_number: z.string().min(9).optional()
+        name: z.string().trim().min(1).optional(),
+        phone_number: z.string().trim().min(9).optional()
     });
     
     try {

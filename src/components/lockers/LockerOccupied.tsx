@@ -4,15 +4,26 @@ import formatDate from "@/app/utils/formatDate";
 import { useLockersContext } from "@/context/LockersContext";
 import axios from "axios";
 import { useEffect, useState } from 'react';
+import DeleteModal from "../DeleteModal";
 
-const LockerOccupied = ( props : { closeModal : () => void }) => {
+const LockerOccupied = ( props : { 
+        closeModal : () => void
+        openDeleteModal : () => void
+    }) => {
 
-    const { closeModal } = props;
+    const { closeModal, openDeleteModal } = props;
     const { locker, lockers, setLockers } = useLockersContext();
     const [ student, setStudent ] = useState<Student>();
 
     const [unnocupySection, setUnnocupySection] = useState(false);
     const [reason, setReason] = useState("");
+    const [reasons, setReasons] = useState([
+        "Saiu da escola", 
+        "Não renovou", 
+        "Foi expulso", 
+        "Não usava o armário", 
+        "Outro"
+    ])
     const [errorMessage, setErrorMessage] = useState("");
 
     useEffect (() => {
@@ -54,51 +65,17 @@ const LockerOccupied = ( props : { closeModal : () => void }) => {
     return ( unnocupySection ? 
         (<>
             <div className="modal-body">
-                <div className="form-check">
-                    <input 
-                        className="form-check-input" type="radio" name="reason"
-                        onChange={() => setReason("Saiu da Escola")}
-                    />
-                    <label className="form-check-label">
-                        Saiu da Escola
-                    </label>
-                </div>
-                <div className="form-check">
-                    <input 
-                        className="form-check-input" type="radio" name="reason"
-                        onChange={() => setReason("Não renovou")}
-                    />
-                    <label className="form-check-label">
-                        Não renovou
-                    </label>
-                </div>
-                <div className="form-check">
-                    <input 
-                        className="form-check-input" type="radio" name="reason"
-                        onChange={() => setReason("Foi expulso")}
-                    />
-                    <label className="form-check-label">
-                        Foi expulso
-                    </label>
-                </div>
-                <div className="form-check">
-                    <input 
-                        className="form-check-input" type="radio" name="reason"
-                        onChange={() => setReason("Não usava o armário")}
-                    />
-                    <label className="form-check-label">
-                        Não usava o armário
-                    </label>
-                </div>
-                <div className="form-check">
-                    <input 
-                        className="form-check-input" type="radio" name="reason"
-                        onChange={() => setReason("Outro")}
-                    />
-                    <label className="form-check-label">
-                        Outro
-                    </label>
-                </div>
+                {reasons.map(reason => (
+                    <div className="form-check">
+                        <input 
+                            className="form-check-input" type="radio" name="reason"
+                            onChange={() => setReason(reason)}
+                        />
+                        <label className="form-check-label">
+                            {reason}
+                        </label>
+                    </div>
+                ))}
                 {errorMessage.length > 1 && <span className="text-danger">{errorMessage}</span>}
             </div> 
             <div className="modal-footer">
@@ -144,6 +121,14 @@ const LockerOccupied = ( props : { closeModal : () => void }) => {
             <div>Carregando...</div>
         </div>}
         <div className="modal-footer">
+            <button
+                type="button"
+                className="btn-cool btn-red"
+                data-bs-dismiss="modal"
+                onClick={openDeleteModal}
+            >
+                <i className="bi bi-trash"></i>
+            </button>
             <button
                 type="button"
                 className="btn-cool btn-gray"

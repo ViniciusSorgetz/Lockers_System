@@ -90,7 +90,7 @@ body{
 .btn-gray{
   background-color: var(--gray2);
 }
-.btn-gray i{
+.btn-gray .bi-plus-lg{
   -webkit-text-stroke: 1px
 }
 .btn-blue{

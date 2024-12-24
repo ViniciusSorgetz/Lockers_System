@@ -30,7 +30,7 @@ export async function POST(request: Request) : Promise<NextResponse>{
 
     await dbConnect();
     const codeSchema = z.object({
-        code: z.string().min(2)
+        code: z.string().trim().min(2)
     });
 
     try {

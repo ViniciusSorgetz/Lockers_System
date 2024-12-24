@@ -3,10 +3,11 @@ import dbConnect from "@/app/db/dbConnect";
 import Class, { Student } from "@/app/models/Class";
 import { z } from "zod";
 
-const codeSchema = z.string().min(2);
+const codeSchema = z.string().trim().min(2);
 
+// get class information
 export async function GET(
-    request: Request, 
+    _request: Request, 
     { params } : { params: Promise<{ code:string }> } 
 ) : Promise<NextResponse>{
 
@@ -36,7 +37,7 @@ export async function GET(
 
         console.error(error);
         return NextResponse.json(
-            { message: "Erro ao adicionar aluno na sala. Tente novamente mais tarde." }, 
+            { message: "Erro ao buscar informações da sala. Tente novamente mais tarde." }, 
             { status: 500 }
         );
     }
@@ -50,8 +51,8 @@ export async function POST(
 
     await dbConnect();
     const studentSchema = z.object({
-        name: z.string().min(1),
-        phone_number: z.string().min(9).optional().or(z.literal(''))
+        name: z.string().trim().min(1),
+        phone_number: z.string().trim().min(9).optional().or(z.literal(''))
     });
 
     try {

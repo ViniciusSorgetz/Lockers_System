@@ -3,6 +3,8 @@ import { useState } from "react";
 import LockerFree from "./LockerFree";
 import LockerOccupied from "./LockerOccupied";
 import formatDate from "@/app/utils/formatDate";
+import DeleteModal from "../DeleteModal";
+import { api } from "@/app/axios/api";
 
 const LockerModal = (props : { closeModal : () => void }) => {
 
@@ -15,6 +17,7 @@ const LockerModal = (props : { closeModal : () => void }) => {
 
   const { closeModal } = props;
   const [historySection, setHistorySection] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
 
   const getLockerClass = () : string => {
       switch(lockerState){
@@ -25,7 +28,27 @@ const LockerModal = (props : { closeModal : () => void }) => {
       }
   }
 
+  const remove = async () : Promise<void> => {
+    try {
+      await api.delete("/lockers", {data: {
+        building: building, 
+        number: locker.number
+      }});
+      const lockersCopy = lockers.filter(l => l.number != locker.number);
+      setLockers(lockersCopy);
+    } 
+    catch (error) {
+      console.log("Algo deu errado.", error);
+    }
+  }
+
   return (
+    deleteModal ? <DeleteModal 
+      closeDeleteModal={() => setDeleteModal(false)}
+      closeModal={closeModal}
+      remove={remove}
+      message="Esta ação irá remover o armário e todas suas informações serão perdidas."
+    /> : 
     <div className={"modal my-modal modal-" + lockerState} style={{ display: "block" }}>
       <div className="modal-dialog">
         <div className="modal-content">
@@ -91,8 +114,14 @@ const LockerModal = (props : { closeModal : () => void }) => {
           :
           <>
             {locker.occupied 
-              ? <LockerOccupied closeModal={closeModal}/>
-              : <LockerFree closeModal={closeModal}/>}
+              ? <LockerOccupied 
+                closeModal={closeModal} 
+                openDeleteModal={() => setDeleteModal(true)}
+                />
+              : <LockerFree 
+                closeModal={closeModal} 
+                openDeleteModal={() => setDeleteModal(true)}
+              />}
           </>}
         </div>
       </div>
