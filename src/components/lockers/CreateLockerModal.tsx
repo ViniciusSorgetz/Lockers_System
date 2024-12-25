@@ -6,7 +6,11 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-const CreateLockerModal = (props : { closeModal : () => void }) => {
+type PropsType = {
+    closeModal : () => void 
+}
+
+const CreateLockerModal = (props : PropsType) => {
 
     const { closeModal } = props;
     const { lockers, setLockers, building } = useLockersContext();

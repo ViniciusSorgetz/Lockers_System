@@ -5,10 +5,14 @@ import { useClassesContext } from "@/context/ClassesContext";
 import axios from "axios";
 import { IClass } from "@/app/models/Class";
 
+type PropsType = {
+    closeModal : () => void,
+    currentClass? : IClass
+}
 
-const CreateclassNameModal = (props : {closeModal : () => void}) => {
+const CreateclassNameModal = (props : PropsType) => {
 
-    const { closeModal } = props;
+    const { closeModal, currentClass } = props;
     const { classes, setClasses } = useClassesContext();
 
     const classFormSchema = z.object({
@@ -28,12 +32,24 @@ const CreateclassNameModal = (props : {closeModal : () => void}) => {
 
     const createClass = async (data : classFormData) => {
         try {
-            const response = await axios.post("/api/classes", {code : data.code});
-            const createdClass = response.data.class as IClass;
-            const classesCopy = [...classes];
-            classesCopy.push(createdClass);
-            classesCopy.sort((a: IClass, b: IClass) => a.code.localeCompare(b.code));
-            setClasses(classesCopy);
+            if(currentClass){
+                const response = await axios.patch(`/api/classes/${currentClass.code}`, {
+                    newCode : data.code
+                });
+                const classesCopy = [...classes];
+                const currentClassIndex = classes.findIndex(c => c.code == currentClass.code);
+                classesCopy[currentClassIndex].code = data.code;
+                classesCopy.sort((a: IClass, b: IClass) => a.code.localeCompare(b.code));
+                setClasses(classesCopy);
+            }
+            else{
+                const response = await axios.post("/api/classes", {code : data.code});
+                const createdClass = response.data.class as IClass;
+                const classesCopy = [...classes];
+                classesCopy.push(createdClass);
+                classesCopy.sort((a: IClass, b: IClass) => a.code.localeCompare(b.code));
+                setClasses(classesCopy);
+            }
             closeModal();
         } 
         catch (error) {
@@ -46,7 +62,12 @@ const CreateclassNameModal = (props : {closeModal : () => void}) => {
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header d-flex">
-                        <h5 className="modal-title">Criar turma</h5>
+                        <h5 className="modal-title">
+                            { currentClass 
+                                ? "Editar turma"
+                                : "Criar turma"
+                            }
+                        </h5>
                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={closeModal}></button>
                     </div>
                     <form onSubmit={handleSubmit(createClass)}>
@@ -55,6 +76,7 @@ const CreateclassNameModal = (props : {closeModal : () => void}) => {
                             <input 
                                 type="text"
                                 className="form-control" 
+                                defaultValue={currentClass && currentClass.code}
                                 {...register("code")}
                             />
                             {errors.code && <span className="text-danger small">
@@ -67,7 +89,10 @@ const CreateclassNameModal = (props : {closeModal : () => void}) => {
                                 type="submit" 
                                 className="btn-cool btn-modal"
                             >
-                                Criar turma
+                                { currentClass 
+                                    ? "Editar turma"
+                                    : "Criar turma"
+                                }
                             </button>
                         </div>
                     </form>

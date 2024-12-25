@@ -28,7 +28,7 @@ const LockerModal = (props : { closeModal : () => void }) => {
       }
   }
 
-  const remove = async () : Promise<void> => {
+  const removeLocker = async () : Promise<void> => {
     try {
       await api.delete("/lockers", {data: {
         building: building, 
@@ -46,7 +46,7 @@ const LockerModal = (props : { closeModal : () => void }) => {
   return (
     deleteModal ? <DeleteModal 
       closeDeleteModal={() => setDeleteModal(false)}
-      remove={remove}
+      remove={removeLocker}
       message="Esta ação irá remover o armário e todas suas informações serão perdidas."
     /> : 
     <div className={"modal my-modal modal-" + lockerState} style={{ display: "block" }}>

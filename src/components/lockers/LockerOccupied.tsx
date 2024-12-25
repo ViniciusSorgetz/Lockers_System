@@ -4,12 +4,13 @@ import formatDate from "@/app/utils/formatDate";
 import { useLockersContext } from "@/context/LockersContext";
 import axios from "axios";
 import { useEffect, useState } from 'react';
-import DeleteModal from "../DeleteModal";
 
-const LockerOccupied = ( props : { 
-        closeModal : () => void
-        openDeleteModal : () => void
-    }) => {
+type PropsType = {
+    closeModal : () => void
+    openDeleteModal : () => void
+}
+
+const LockerOccupied = ( props : PropsType) => {
 
     const { closeModal, openDeleteModal } = props;
     const { locker, lockers, setLockers } = useLockersContext();

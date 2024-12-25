@@ -4,6 +4,7 @@ import Class, { Student } from "@/app/models/Class";
 import { z } from "zod";
 
 import { objectIdSchema } from "@/app/schemas/schemas";
+import mongoose from "mongoose";
 
 // get information of a student
 export async function GET(
@@ -57,8 +58,8 @@ export async function PATCH(
 
     await dbConnect();
     const studentSchema = z.object({
-        name: z.string().trim().min(1).optional(),
-        phone_number: z.string().trim().min(9).optional()
+        name: z.string().trim().min(1),
+        phone_number: z.string().trim().min(9).optional().or(z.literal(''))
     });
     
     try {
@@ -80,12 +81,16 @@ export async function PATCH(
                 { status: 404 }
         );
 
-        if(name) studentClass.students[studentIndex].name = name;
-        if(phone_number) studentClass.students[studentIndex].phone_number = phone_number;
+        studentClass.students[studentIndex] = {
+            _id: new mongoose.Types.ObjectId(student_id),
+            name: name,
+            phone_number: phone_number?.length == 0 ? undefined : phone_number,
+        }
         await studentClass.save();
+        const updatedStudent = studentClass.students[studentIndex]
 
         return NextResponse.json(
-            { message: "Informações do aluno atualizadas com sucesso." },
+            { message: "Informações do aluno atualizadas com sucesso.", student: updatedStudent },
             { status: 200 }
         );
     } catch (error) {

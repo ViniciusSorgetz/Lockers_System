@@ -1,9 +1,12 @@
 
-const DeleteModal = ( props: { 
-        closeDeleteModal : () => void,
-        message : string,
-        remove : () => Promise<void>
-    } ) => {
+type PropsType = {
+    message : string,
+    remove : () => Promise<void>
+    closeDeleteModal : () => void
+}
+
+
+const DeleteModal = ( props: PropsType ) => {
     
     const { closeDeleteModal, message, remove } = props;
 
@@ -25,7 +28,6 @@ const DeleteModal = ( props: {
                             data-bs-dismiss="modal"
                             onClick={() => {
                                 remove();
-                                closeDeleteModal();
                             }}
                         >
                             Remover <i className="bi bi-trash"></i>

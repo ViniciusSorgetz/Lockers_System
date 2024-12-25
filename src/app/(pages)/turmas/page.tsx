@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useClassesContext } from '@/context/ClassesContext';
 import ClassPage from '@/components/classes/ClassPage';
-import CreateclassNameModal from '@/components/classes/CreateClassModal';
+import ClassFormModal from '@/components/classes/ClassFormModal';
 import { Student } from '@/app/models/Class';
 import { useRouter } from 'next/navigation';
 import { useAuthContext } from '@/context/AuthContext';
@@ -15,7 +15,7 @@ const Turmas = () => {
 
   const { classes, setClasses, setCurrentClass, currentClass } = useClassesContext();
   const [classesPage, setClassesPage] = useState(true);
-  const [createClassModal, setCreateClassModal] = useState(false);
+  const [classFormModal, setClassFormModal] = useState(false);
   const { isAuthenticated } = useAuthContext();
   const [deleteModal, setDeleteModal] = useState(false);
   const [removeFunction, setRemoveFunction] = useState<() => Promise<void>>(async () => {});
@@ -24,7 +24,11 @@ const Turmas = () => {
   useEffect(() => {}, [isAuthenticated]);
 
   return (<>
-    {createClassModal && <CreateclassNameModal closeModal={() => setCreateClassModal(false)}/>}
+    {classFormModal && 
+      <ClassFormModal 
+        closeModal={() => setClassFormModal(false)}
+      />
+    }
 
     {deleteModal && !classesPage &&
       <DeleteModal
@@ -37,13 +41,9 @@ const Turmas = () => {
           <div className="main">
             <div className="classes-header d-flex flex-column flex-md-row justify-content-center">
               <label className="p-2 text-600 color-main">Turmas</label>
-              <button className="btn-cool btn-gray" onClick={() => setCreateClassModal(true)}>
+              <button className="btn-cool btn-gray" onClick={() => setClassFormModal(true)}>
                   Criar turma 
                   <i className="bi bi-plus-lg"></i>
-              </button>
-              <button className="btn-cool btn-blue">
-                  Editar turma 
-                  <i className="bi bi-pencil"></i>
               </button>
           </div>
           {isAuthenticated ? 
