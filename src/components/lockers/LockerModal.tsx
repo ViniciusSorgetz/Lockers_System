@@ -36,6 +36,7 @@ const LockerModal = (props : { closeModal : () => void }) => {
       }});
       const lockersCopy = lockers.filter(l => l.number != locker.number);
       setLockers(lockersCopy);
+      closeModal();
     } 
     catch (error) {
       console.log("Algo deu errado.", error);
@@ -45,7 +46,6 @@ const LockerModal = (props : { closeModal : () => void }) => {
   return (
     deleteModal ? <DeleteModal 
       closeDeleteModal={() => setDeleteModal(false)}
-      closeModal={closeModal}
       remove={remove}
       message="Esta ação irá remover o armário e todas suas informações serão perdidas."
     /> : 

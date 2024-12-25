@@ -7,19 +7,32 @@ import CreateclassNameModal from '@/components/classes/CreateClassModal';
 import { Student } from '@/app/models/Class';
 import { useRouter } from 'next/navigation';
 import { useAuthContext } from '@/context/AuthContext';
+import DeleteModal from '@/components/DeleteModal';
+import { api } from '@/app/axios/api';
+import mongoose from 'mongoose';
 
 const Turmas = () => {
 
-  const { classes, setCurrentClass } = useClassesContext();
+  const { classes, setClasses, setCurrentClass, currentClass } = useClassesContext();
   const [classesPage, setClassesPage] = useState(true);
   const [createClassModal, setCreateClassModal] = useState(false);
   const { isAuthenticated } = useAuthContext();
-  const router = useRouter();
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [removeFunction, setRemoveFunction] = useState<() => Promise<void>>(async () => {});
+  const [message, setMessage] = useState("");
 
   useEffect(() => {}, [isAuthenticated]);
 
   return (<>
     {createClassModal && <CreateclassNameModal closeModal={() => setCreateClassModal(false)}/>}
+
+    {deleteModal && !classesPage &&
+      <DeleteModal
+        closeDeleteModal={() => setDeleteModal(false)}
+        message={message}
+        remove={removeFunction}
+      ></DeleteModal> }
+
         {classesPage ? 
           <div className="main">
             <div className="classes-header d-flex flex-column flex-md-row justify-content-center">
@@ -32,10 +45,6 @@ const Turmas = () => {
                   Editar turma 
                   <i className="bi bi-pencil"></i>
               </button>
-              <button className="btn-cool btn-red">
-                  Remover turma 
-                  <i className="bi bi-trash"></i>
-              </button>
           </div>
           {isAuthenticated ? 
             <div className="classes limit">
@@ -44,7 +53,7 @@ const Turmas = () => {
                   className="class_item text-600 color-main" 
                   key={index}
                   onClick={() => {
-                    currentClass.students.sort((a: Student, b:Student) => 
+                    currentClass.students.sort((a, b) => 
                       a.name.localeCompare(b.name)
                     );
                     setCurrentClass(currentClass);
@@ -56,7 +65,13 @@ const Turmas = () => {
               ))}
           </div> 
         : <></>}
-        </div> : <ClassPage closePage={() => setClassesPage(true)}/>
+        </div> : 
+          <ClassPage 
+            closePage={() => setClassesPage(true)}
+            setDeleteModal={setDeleteModal}
+            setRemoveFunction={setRemoveFunction}
+            setMessage={setMessage}
+          />
         }
   </>);
 };

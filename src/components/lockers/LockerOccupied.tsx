@@ -62,13 +62,15 @@ const LockerOccupied = ( props : {
         }
     }
 
-    return ( unnocupySection ? 
-        (<>
+    return unnocupySection ? (
+        <>
             <div className="modal-body">
                 {reasons.map(reason => (
-                    <div className="form-check">
+                    <div className="form-check" key={reason}>
                         <input 
-                            className="form-check-input" type="radio" name="reason"
+                            className="form-check-input" 
+                            type="radio" 
+                            name="reason"
                             onChange={() => setReason(reason)}
                         />
                         <label className="form-check-label">
@@ -77,75 +79,79 @@ const LockerOccupied = ( props : {
                     </div>
                 ))}
                 {errorMessage.length > 1 && <span className="text-danger">{errorMessage}</span>}
-            </div> 
+            </div>
             <div className="modal-footer">
-            <button
-                type="button"
-                className="btn btn-outline-secondary rounded-5"
-                data-bs-dismiss="modal"
-                onClick={() => setUnnocupySection(false)}
-            >
-                Voltar
-            </button>
-            <button 
-                type="button" 
-                className="btn-main rounded-5"
-                onClick={unoccupyLocker}
-            >
-                Liberar Armário <i className="bi bi-lock-fill"></i>
-            </button>
+                <button
+                    type="button"
+                    className="btn btn-outline-secondary rounded-5"
+                    data-bs-dismiss="modal"
+                    onClick={() => setUnnocupySection(false)}
+                >
+                    Voltar
+                </button>
+                <button 
+                    type="button" 
+                    className="btn-main rounded-5"
+                    onClick={unoccupyLocker}
+                >
+                    Liberar Armário <i className="bi bi-lock-fill"></i>
+                </button>
             </div>
-        </>) : 
-        (<>
-        {student 
-        ? <div className="modal-body">
-            <div className="mb-1">
-                <span className="text-bold">Ocupante: </span>
-                {student?.name}
-            </div>
-            {student.phone_number && 
+        </>
+    ) : (<>
+            <div className="modal-body">
+                {student ? (
+                    <>
+                        <div className="mb-1">
+                            <span className="text-bold">Ocupante: </span>
+                            {student?.name}
+                        </div>
+                        {student.phone_number && (
+                            <div className="mb-1">
+                                <span className="text-bold">Telefone do Ocupante: </span>
+                                {student?.phone_number}
+                            </div>
+                        )}
+                    </>
+                ) : (
+                    <div>Aluno não encontrado.</div>
+                )}
                 <div className="mb-1">
-                    <span className="text-bold">Telefone do Ocupante: </span>
-                    {student?.phone_number}
-                </div>}
-            <div className="mb-1">
-                <span className="text-bold">Ocupação: </span>
-                {formatDate(locker.start_date as Date)}
+                    <span className="text-bold">Ocupação: </span>
+                    {formatDate(locker.start_date as Date)}
+                </div>
+                <div>
+                    <span className="text-bold">Prazo: </span>
+                    {formatDate(locker.end_date as Date)}
+                </div>
             </div>
-            <div>
-                <span className="text-bold">Prazo: </span>
-                {formatDate(locker.end_date as Date)}
+            <div className="modal-footer">
+                <button
+                    type="button"
+                    className="btn-cool btn-red"
+                    data-bs-dismiss="modal"
+                    onClick={openDeleteModal}
+                >
+                    <i className="bi bi-trash"></i>
+                </button>
+                <button
+                    type="button"
+                    className="btn-cool btn-gray"
+                    data-bs-dismiss="modal"
+                    onClick={closeModal}
+                >
+                    Fechar
+                </button>
+                <button 
+                    type="button" 
+                    className="btn-cool btn-modal"
+                    onClick={() => setUnnocupySection(true)}
+                >
+                    Liberar Armário <i className="bi bi-lock-fill"></i>
+                </button>
             </div>
-        </div> 
-        : <div className="modal-body">
-            <div>Carregando...</div>
-        </div>}
-        <div className="modal-footer">
-            <button
-                type="button"
-                className="btn-cool btn-red"
-                data-bs-dismiss="modal"
-                onClick={openDeleteModal}
-            >
-                <i className="bi bi-trash"></i>
-            </button>
-            <button
-                type="button"
-                className="btn-cool btn-gray"
-                data-bs-dismiss="modal"
-                onClick={closeModal}
-            >
-                Fechar
-            </button>
-            <button 
-                type="button" 
-                className="btn-cool btn-modal"
-                onClick={() => setUnnocupySection(true)}
-            >
-                Liberar Armário <i className="bi bi-lock-fill"></i>
-            </button>
-        </div>
-    </>))
+        </>
+    );    
 }
 
 export default LockerOccupied;

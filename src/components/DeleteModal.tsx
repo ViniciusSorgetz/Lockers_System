@@ -1,12 +1,11 @@
 
 const DeleteModal = ( props: { 
-        closeModal : () => void,
         closeDeleteModal : () => void,
         message : string,
         remove : () => Promise<void>
     } ) => {
     
-    const { closeDeleteModal, message, remove, closeModal } = props;
+    const { closeDeleteModal, message, remove } = props;
 
     return(
         <div className="modal my-modal" style={{ display: "block" }}>
@@ -27,7 +26,6 @@ const DeleteModal = ( props: {
                             onClick={() => {
                                 remove();
                                 closeDeleteModal();
-                                closeModal();
                             }}
                         >
                             Remover <i className="bi bi-trash"></i>
