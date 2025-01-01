@@ -70,7 +70,7 @@ const StudentFormModal = (props : PropsType) => {
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header d-flex">
-                        <h5 className="modal-title">
+                        <h5 className="modal-title color-main">
                             { student 
                                 ? "Editar estudante"
                                 : "Adicionar estudante"
@@ -84,7 +84,7 @@ const StudentFormModal = (props : PropsType) => {
                                 <label className="text-600 py-2">Nome do aluno</label><br/>
                                 <input 
                                     type="text"
-                                    className="form-control" 
+                                    className="form-control color-main" 
                                     defaultValue={student?.name}
                                     {...register("name")}
                                 />
@@ -98,7 +98,7 @@ const StudentFormModal = (props : PropsType) => {
                                 </label><br/>
                                 <input 
                                     type="text"
-                                    className="form-control" 
+                                    className="form-control color-main" 
                                     defaultValue={student?.phone_number && student.phone_number}
                                     {...register("phone_number")}
                                 />

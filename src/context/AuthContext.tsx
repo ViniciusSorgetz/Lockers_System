@@ -24,13 +24,13 @@ export const AuthWrapper = ({children} : {children : React.ReactNode}) => {
     const router = useRouter();
     
     const signIn = async (data : SignInData) : Promise<void> => {
-        
         const resp = await axios.post("/api/auth/login", data);
         const token = resp.data.token as string;
         const cookies = new Cookies(null, { path : "/" });
         cookies.set("lockersSystem-token", token, {
             maxAge: 60 * 60 * 24 * 180 // 180 days / about 6 months
         });
+        cookies.set("lockersSystem-theme", "light");
         api.defaults.headers["Authorization"] = `Bearer ${token}`;
         setIsAuthenticated(true);
         router.push("/armarios");
@@ -43,6 +43,7 @@ export const AuthWrapper = ({children} : {children : React.ReactNode}) => {
             router.push("/login");
             return;
         }
+        //const theme = cookies.get("lockersSystem-theme");
         setIsAuthenticated(true);
     }
 

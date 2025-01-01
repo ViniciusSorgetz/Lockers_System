@@ -64,13 +64,13 @@ const LockerModal = (props : { closeModal : () => void }) => {
             </div>
             <div className="locker-header mt-2 locker-modal-section">
               <h6 
-                className={historySection ? "" : "locker-section-selected"}
+                className={historySection ? "color-gray" : "locker-section-selected"}
                 onClick={() => setHistorySection(false)}
               >
                 Informações
               </h6>
               <h6 
-                className={historySection ? "locker-section-selected" : ""}
+                className={historySection ? "locker-section-selected" : "color-gray"}
                 onClick={() => setHistorySection(true)}
               >
                 Histórico
@@ -85,25 +85,25 @@ const LockerModal = (props : { closeModal : () => void }) => {
                 <>
                   {locker.history.slice(0).reverse().map((history) => (
                   <div className="locker-history border rounded-4 p-3 mb-2">
-                    <div>
+                    <div className="color-main">
                       <span className="text-bold">Início: </span>{formatDate(history.start_date)}
                     </div>
-                    <div>
+                    <div className="color-main">
                       <span className="text-bold">Término: </span>{formatDate(history.end_date)}
                     </div>
-                    <div>
+                    <div className="color-main">
                       <span className="text-bold">Moivo do término: </span>{history.reason}
                     </div>
                   </div>
                   ))}
                 </> :
-                <><label>Sem histórico para este armário.</label></>
+                <><label className="color-main">Sem histórico para este armário.</label></>
               }
             </div>
             <div className="modal-footer">
               <button
                 type="button"
-                className="btn btn-outline-secondary rounded-5"
+                className="btn-cool btn-gray"
                 data-bs-dismiss="modal"
                 onClick={closeModal}
               >

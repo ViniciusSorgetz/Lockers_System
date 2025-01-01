@@ -62,7 +62,7 @@ const CreateclassNameModal = (props : PropsType) => {
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header d-flex">
-                        <h5 className="modal-title">
+                        <h5 className="modal-title color-main">
                             { currentClass 
                                 ? "Editar turma"
                                 : "Criar turma"
@@ -75,7 +75,7 @@ const CreateclassNameModal = (props : PropsType) => {
                             <label className="text-600 py-2">Código da turma</label><br/>
                             <input 
                                 type="text"
-                                className="form-control" 
+                                className="form-control color-main" 
                                 defaultValue={currentClass && currentClass.code}
                                 {...register("code")}
                             />

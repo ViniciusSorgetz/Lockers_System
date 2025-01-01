@@ -39,14 +39,14 @@ const LoginPage = () => {
         
     return (<>            
             <form className="login-form" onSubmit={handleSubmit(login)}>
-                <h4 className="text-center mb-5">Login no sistema</h4>
+                <h4 className="text-center mb-5 color-main">Login no sistema</h4>
                 <div className="form-group row mb-3">
-                    <label className="col-sm-2 col-form-label">Nome</label>
+                    <label className="col-sm-2 col-form-label color-main">Nome</label>
                     <div className="col-sm-10">
                     <input 
                         type="text" 
                         value={"Admin"}
-                        className="form-control-plaintext"
+                        className="form-control-plaintext color-main"
                         placeholder="nome"
                         {...register("name")}
                     />
@@ -57,10 +57,11 @@ const LoginPage = () => {
                     </div>
                 </div>
                 <div className="form-group row mb-4">
-                    <label className="col-sm-2 col-form-label">Senha</label>
+                    <label className="col-sm-2 col-form-label color-main">Senha</label>
                     <div className="col-sm-10">
                     <input 
                         type="password" 
+                        defaultValue="show123"
                         className="form-control" 
                         placeholder="senha"
                         {...register("password")}

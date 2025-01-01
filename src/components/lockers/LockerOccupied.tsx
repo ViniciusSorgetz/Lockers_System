@@ -103,25 +103,25 @@ const LockerOccupied = ( props : PropsType) => {
             <div className="modal-body">
                 {student ? (
                     <>
-                        <div className="mb-1">
+                        <div className="mb-1 color-main">
                             <span className="text-bold">Ocupante: </span>
                             {student?.name}
                         </div>
                         {student.phone_number && (
-                            <div className="mb-1">
+                            <div className="mb-1 color-main">
                                 <span className="text-bold">Telefone do Ocupante: </span>
                                 {student?.phone_number}
                             </div>
                         )}
                     </>
                 ) : (
-                    <div>Aluno não encontrado.</div>
+                    <div className="color-main">Aluno não encontrado.</div>
                 )}
-                <div className="mb-1">
+                <div className="mb-1 color-main">
                     <span className="text-bold">Ocupação: </span>
                     {formatDate(locker.start_date as Date)}
                 </div>
-                <div>
+                <div className="color-main">
                     <span className="text-bold">Prazo: </span>
                     {formatDate(locker.end_date as Date)}
                 </div>

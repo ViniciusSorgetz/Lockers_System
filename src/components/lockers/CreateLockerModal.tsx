@@ -61,7 +61,7 @@ const CreateLockerModal = (props : PropsType) => {
             <div className="modal-dialog">
                 <div className="modal-content">
                 <div className="modal-header d-flex">
-                    <h5 className="modal-title">Criar Armário</h5>
+                    <h5 className="modal-title color-main">Criar Armário</h5>
                     <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={closeModal}></button>
                 </div>
                     <form onSubmit={handleSubmit(addLocker)}>
@@ -70,7 +70,7 @@ const CreateLockerModal = (props : PropsType) => {
                             <input 
                                 type="number" 
                                 min={1}
-                                className="form-control" 
+                                className="form-control color-main" 
                                 {...register("number")}
                             />
                             {errors.number && 

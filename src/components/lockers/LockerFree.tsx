@@ -62,7 +62,7 @@ const LockerFree = (props : {
                 <div className="mb-1">
                     <label className="text-bold">Turma</label>
                     <select
-                        className="form-control rounded-3"
+                        className="form-control rounded-3 select-box color-main"
                         onChange={handleClassChange}
                     >
                         <option value="" selected>
@@ -78,7 +78,7 @@ const LockerFree = (props : {
                 <div className="mb-1">
                     <label className="text-bold">Aluno</label>
                     <select
-                        className="form-control rounded-3" 
+                        className="form-control rounded-3 select-box color-main" 
                         {...register("student_id")}
                         id="student"
                     >
@@ -97,7 +97,7 @@ const LockerFree = (props : {
                     <label className="text-bold">Prazo da Ocupação</label>
                     <input
                         type="date"
-                        className="form-control rounded-3"
+                        className="form-control rounded-3 color-main date-input"
                         {...register("deadline")}
                     />
                     {errors.deadline && <span className="small text-danger">{errors.deadline.message}</span>}

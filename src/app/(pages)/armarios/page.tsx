@@ -66,7 +66,7 @@ const LockersPage = () => {
         <div className="main">
             <div className="lockers-header d-flex flex-column flex-md-row justify-content-center">
                 <select
-                    className="lockers-select"
+                    className="lockers-select select-box"
                     aria-label="building select"
                     onChange={handleBuilding}
                     defaultValue={"A"}

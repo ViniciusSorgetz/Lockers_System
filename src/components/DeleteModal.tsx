@@ -15,10 +15,10 @@ const DeleteModal = ( props: PropsType ) => {
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header d-flex justify-content-between">
-                        <h5 className="modal-title">Confirmar remoção</h5>
+                        <h5 className="modal-title color-main">Confirmar remoção</h5>
                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={closeDeleteModal}></button>
                     </div>
-                    <div className="modal-body">
+                    <div className="modal-body color-main">
                         {message}
                     </div>
                     <div className="modal-footer">
