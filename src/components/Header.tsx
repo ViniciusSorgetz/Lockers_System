@@ -24,7 +24,7 @@ const Header = () => {
 
   useEffect(() => {
     getTheme();
-  });
+  }, []);
 
   const getTheme = () => {
     if(pathname == "/login") return;

@@ -76,7 +76,7 @@ const LoginPage = () => {
                         </span>}
                     </div>
                 </div>
-                <button className="btn-cool btn-blue" style={{margin: "auto"}}>Logar</button>
+                <button className="btn-cool btn-blue" type="submit" style={{margin: "auto"}}>Logar</button>
             </form>
     </>);
 }

@@ -3,8 +3,12 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { z } from "zod";
 import Admin from "@/app/models/Admin";
+import dbConnect from "@/app/db/dbConnect";
 
 export async function POST(request : Request): Promise<NextResponse>{
+
+    await dbConnect();
+
     try {
         const loginData = z.object({
             name : z.string().nonempty(),

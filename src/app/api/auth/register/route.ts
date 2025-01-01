@@ -2,8 +2,12 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { z } from "zod";
 import Admin from "@/app/models/Admin";
+import dbConnect from "@/app/db/dbConnect";
 
 export async function POST(request : Request): Promise<NextResponse>{
+
+    await dbConnect();
+
     try {
         const loginData = z.object({
             name : z.string().trim().nonempty().min(5),
@@ -25,6 +29,8 @@ export async function POST(request : Request): Promise<NextResponse>{
         )
     } 
     catch (error) {
+
+        await dbConnect();
 
         if(error instanceof z.ZodError) return NextResponse.json(
             { message: "Erro de requisição.", errors: error.issues },
