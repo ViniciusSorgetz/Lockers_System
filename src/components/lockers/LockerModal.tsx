@@ -86,7 +86,8 @@ const LockerModal = (props : { closeModal : () => void }) => {
                   {locker.history.slice(0).reverse().map((history) => (
                   <div className="locker-history border rounded-4 p-3 mb-2">
                     <div className="color-main">
-                      <span className="text-bold">Início: </span>{formatDate(history.start_date)}
+                      <span className="text-bold">Início: </span>
+                      {formatDate(history.start_date).padStart(2, "0")}
                     </div>
                     <div className="color-main">
                       <span className="text-bold">Término: </span>{formatDate(history.end_date)}

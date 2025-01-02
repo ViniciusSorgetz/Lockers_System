@@ -62,7 +62,7 @@ const LockerOccupied = ( props : PropsType) => {
             console.log("Algo deu errado.", error);
         }
     }
-
+    
     return unnocupySection ? (
         <>
             <div className="modal-body">
@@ -119,11 +119,11 @@ const LockerOccupied = ( props : PropsType) => {
                 )}
                 <div className="mb-1 color-main">
                     <span className="text-bold">Ocupação: </span>
-                    {formatDate(locker.start_date as Date)}
+                    {(formatDate(locker.start_date as Date)).padStart(2, "0")}
                 </div>
                 <div className="color-main">
                     <span className="text-bold">Prazo: </span>
-                    {formatDate(locker.end_date as Date)}
+                    {formatDate(locker.end_date as Date).padStart(2, "0")}
                 </div>
             </div>
             <div className="modal-footer">
