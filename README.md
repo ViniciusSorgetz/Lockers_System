@@ -2,7 +2,8 @@
 
 ## Aplicação para gerenciamento de ocupação de armários em um ambiente escolar.
 
-Este projeto foi feito com base na escola Monteiro Lobato, Taquara, RS. Então seu design foi pensado em funcionar com os armários da escola, mesmo que ele não seja de fato usado. O principal objetivo desse projeto foi aprender e explorar novas tecnologias.
+Este projeto foi feito com base na Escola Monteiro Lobato (Taquara/RS), então seu design foi planejado para ser utilizado na escola, embora ele não seja de fato usado na prática. O principal objetivo desse projeto foi aprender e explorar novas tecnologias.
+
 ### Principais tecnologias utilizadas
 - Typescript
 - Next.js 
@@ -18,15 +19,24 @@ Este projeto foi feito com base na escola Monteiro Lobato, Taquara, RS. Então s
 - Tema escuro e claro
 - Sistema de verificação de dados com Zod no backend e com Zod e React Hook Form no frontend
 - Página de Armários
- - Listar armários, adicionar armário, ocupar armário, desocupar armário, ver histórico do armário e excluir armário
+  - Listar armários, adicionar armário, ocupar armário, desocupar armário, ver histórico do armário e remover armário
  - Página de Turmas
-  - CRUD para turmas e CRUD para alunos dentro das turmas
+  - CRUD para turmas e CRUD para os alunos dentro de uma turma
 
 ### Ferramentas utilizadas para construção da aplicação:
 - VS Code
 - Figma para prototipagem: [Ver Protótipo](https://www.figma.com/design/ZKjzkBgz8DBxQdvEVh7ivI/Lockers-System?node-id=0-1&t=kBMuUBSB4qsSRKlW-1)
 - Postman
 - Notion para uma organização básica
+
+### Screenshots
+Página de armários
+![PáginaArmarios](/src/public/assets/screenshot01.png)
+Página de turmas
+![PáginaArmarios](/src/public/assets/screenshot02.png)
+Página da turma
+![PáginaArmarios](/src/public/assets/screenshot03.png)
+
 ### Comando para rodar o projeto
 
 ```bash
