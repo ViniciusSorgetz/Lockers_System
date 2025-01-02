@@ -4,6 +4,8 @@
 
 Este projeto foi feito com base na Escola Monteiro Lobato (Taquara/RS), então seu design foi planejado para ser utilizado na escola, embora ele não seja de fato usado na prática. O principal objetivo desse projeto foi aprender e explorar novas tecnologias.
 
+Link da hospedagem no Vercel: [Lockers_System](https://lockers-system.vercel.app/armarios)
+
 ### Principais tecnologias utilizadas
 - Typescript
 - Next.js 
