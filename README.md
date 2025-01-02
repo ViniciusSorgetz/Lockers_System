@@ -30,7 +30,7 @@ Este projeto foi feito com base na Escola Monteiro Lobato (Taquara/RS), então s
 - Notion para uma organização básica
 
 ### Algumas Screenshots
-![Screenshots](/src/public/assets/screenshots.png)
+![Screenshots](/src/public/assets/screenshots_group.png)
 
 ### Comando para rodar o projeto
 
