@@ -2,7 +2,6 @@
 
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
-import cimol from '../public/assets/cimol.png';
 import info from '../public/assets/info.png';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';

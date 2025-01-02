@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import { z } from "zod";
 import Admin from "@/app/models/Admin";
 

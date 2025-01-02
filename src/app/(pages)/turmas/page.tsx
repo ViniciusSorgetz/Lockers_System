@@ -4,16 +4,13 @@ import { useEffect, useState } from 'react';
 import { useClassesContext } from '@/context/ClassesContext';
 import ClassPage from '@/components/classes/ClassPage';
 import ClassFormModal from '@/components/classes/ClassFormModal';
-import { Student } from '@/app/models/Class';
-import { useRouter } from 'next/navigation';
 import { useAuthContext } from '@/context/AuthContext';
 import DeleteModal from '@/components/DeleteModal';
-import { api } from '@/app/axios/api';
-import mongoose from 'mongoose';
+
 
 const Turmas = () => {
 
-  const { classes, setClasses, setCurrentClass, currentClass } = useClassesContext();
+  const { classes, setCurrentClass } = useClassesContext();
   const [classesPage, setClassesPage] = useState(true);
   const [classFormModal, setClassFormModal] = useState(false);
   const { isAuthenticated } = useAuthContext();

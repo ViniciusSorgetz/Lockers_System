@@ -5,7 +5,6 @@ type PropsType = {
     closeDeleteModal : () => void
 }
 
-
 const DeleteModal = ( props: PropsType ) => {
     
     const { closeDeleteModal, message, remove } = props;

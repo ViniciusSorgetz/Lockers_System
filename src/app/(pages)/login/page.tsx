@@ -2,7 +2,7 @@
 
 import { useAuthContext } from "@/context/AuthContext";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios, { AxiosError, isAxiosError } from "axios";
+import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";

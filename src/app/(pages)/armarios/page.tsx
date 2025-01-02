@@ -11,9 +11,9 @@ const LockersPage = () => {
 
     const { 
         lockers, setLockers, 
-        locker, setLocker, 
-        lockerState, setLockerState,
-        building, setBuilding,
+        setLocker, 
+        setLockerState,
+        setBuilding,
     } = useLockersContext();
 
     const [lockerModal, setLockerModal] = useState(false);

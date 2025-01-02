@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import dbConnect from "@/app/db/dbConnect";
 import Class from "@/app/models/Class";
-import { z } from "zod";
 
 // list classes code
 export async function GET() : Promise<NextResponse>{

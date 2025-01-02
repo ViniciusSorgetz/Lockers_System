@@ -10,9 +10,9 @@ const LockerModal = (props : { closeModal : () => void }) => {
 
   const { 
           lockers, setLockers, 
-          locker, setLocker, 
-          lockerState, setLockerState,
-          building, setBuilding,
+          locker, 
+          lockerState,
+          building,
   } = useLockersContext();
 
   const { closeModal } = props;

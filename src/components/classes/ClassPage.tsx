@@ -1,8 +1,7 @@
 "use client";
 
 import { useClassesContext } from "@/context/ClassesContext";
-import { usePathname } from "next/navigation";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import StudentFormModal from "@/components/classes/StudentFormModal";
 import ClassFormModal from "@/components/classes/ClassFormModal";
 import { api } from "@/app/axios/api";
