@@ -27,10 +27,18 @@ const Header = () => {
 
   const getTheme = () => {
     if(pathname == "/login") return;
-    const theme = cookies.get("lockersSystem-theme");
-    document.body.className = theme + "-mode";
-    if(theme == "dark") setTheme("Escuro");
-    else setTheme("Claro");
+    const cookieTheme = cookies.get("lockersSystem-theme");
+    if(cookieTheme == "light"){
+      document.body.className = "light-mode";
+      setTheme("Claro");
+    }
+    else if(cookieTheme == "dark"){
+      document.body.className = "dark-mode";
+      setTheme("Escuro");
+    }
+    else{
+      document.body.className = "light-mode";
+    }
   }
 
   const changeTheme = (e : React.ChangeEvent<HTMLInputElement>) => {
