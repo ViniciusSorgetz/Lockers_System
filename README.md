@@ -29,13 +29,8 @@ Este projeto foi feito com base na Escola Monteiro Lobato (Taquara/RS), então s
 - Postman
 - Notion para uma organização básica
 
-### Screenshots
-Página de armários
-![PáginaArmarios](/src/public/assets/screenshot01.png)
-Página de turmas
-![PáginaArmarios](/src/public/assets/screenshot02.png)
-Página da turma
-![PáginaArmarios](/src/public/assets/screenshot03.png)
+### Algumas Screenshots
+![Screenshots](/src/public/assets/screenshots.png)
 
 ### Comando para rodar o projeto
 
