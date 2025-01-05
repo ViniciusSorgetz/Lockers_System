@@ -74,7 +74,7 @@ const LockerOccupied = ( props : PropsType) => {
                             name="reason"
                             onChange={() => setReason(reason)}
                         />
-                        <label className="form-check-label">
+                        <label className="form-check-label color-main">
                             {reason}
                         </label>
                     </div>
